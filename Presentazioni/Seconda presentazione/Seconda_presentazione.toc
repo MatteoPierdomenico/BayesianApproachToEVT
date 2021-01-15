@@ -1,0 +1,9 @@
+\babel@toc {italian}{}
+\babel@toc {italian}{}
+\beamer@sectionintoc {1}{Resuming}{2}{0}{1}
+\beamer@sectionintoc {2}{Assumptions for first models}{4}{0}{2}
+\beamer@sectionintoc {3}{First models}{5}{0}{3}
+\beamer@sectionintoc {4}{Hierarchical model}{12}{0}{4}
+\beamer@sectionintoc {5}{Hierarchical model}{14}{0}{5}
+\beamer@sectionintoc {6}{conclusions}{15}{0}{6}
+\beamer@sectionintoc {7}{Bibliography}{16}{0}{7}
