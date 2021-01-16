@@ -1,10 +1,9 @@
 library(lubridate)
-library(evir)
 library(rstan)
 library(coda)
 library(Rcpp)
-library(ismev)
 library(loo)
+library(evir)
 
 # for plots
 library(ggplot2)
@@ -21,7 +20,7 @@ unique(Ireland$spot)
 
 # fix a location
 county <- Ireland %>%
-  filter(spot == "clare") %>%
+  filter(spot == "clare") %>%                    #Here is where to change the county to be analyzed
   select(time = year, obs = `hg`)
 
 summary(county$obs) # note 3rd Qu. vs Max.
