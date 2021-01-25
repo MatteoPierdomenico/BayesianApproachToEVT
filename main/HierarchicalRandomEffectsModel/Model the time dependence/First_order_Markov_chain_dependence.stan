@@ -1,32 +1,31 @@
 // source: https://mc-stan.org/users/documentation/case-studies/gpareto_functions.html
 
 functions {
-  real FOMC_pdf(real x1,real x2,real threshold,real sigma,real xi,real alpha,real lambda){
-  if(x1>threshold && x2>threshold){
-    return -((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha)*((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha)*
-    (((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^alpha/
-    (sigma^2*(1 + xi*(-threshold + x1)/sigma)*(1 + xi*(-threshold + x2)/sigma)*(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha) 
-    + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^2) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha)*
-    ((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha)*(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha) + 
-    ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^alpha/(alpha*sigma^2*(1 + xi*(-threshold + x1)/sigma)*(1 +
-    xi*(-threshold + x2)/sigma)*(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^2);
+   real FOMC_pdf(real x1,real x2,real threshold,real sigma,real xi,real alpha,real lambda){
+    real z1 = 1 + xi*(x1 - threshold)/sigma;
+    real z2 = 1 + xi*(x2- threshold)/sigma;
+    real inv_xi = 1/xi;
+    real inv_alpha = 1/alpha; 
+    real inv_lambda = 1/lambda;
+    if(x1>threshold && x2>threshold){
+     return (-(inv_lambda * z1^inv_xi)^(-inv_alpha)*(inv_lambda * z2^inv_xi)^(-inv_alpha)*((inv_lambda*z2^inv_xi)^(-inv_alpha) 
+            + (inv_lambda*z1^inv_xi)^(-inv_alpha))^alpha/(sigma^2*z1*z2*((inv_lambda*z2^inv_xi)^(-inv_alpha) 
+            + (inv_lambda*z1^inv_xi)^(-inv_alpha))^2) + (inv_lambda*z1^inv_xi)^(-inv_alpha)*(inv_lambda*z2^inv_xi)^(-inv_alpha)*((inv_lambda*z2^inv_xi)^(-inv_alpha) 
+            + (inv_lambda*z1^inv_xi)^(-inv_alpha))^alpha/(alpha*sigma^2*z1*z2*((inv_lambda*z2^inv_xi)^(-inv_alpha) + (inv_lambda*z1^inv_xi)^(-inv_alpha))^2));
+    
   }
   
-  
-  if(x1>threshold && x2<=threshold){
-    return (1/(lambda*sigma))*((xi*(x1-threshold)/sigma +1)^(1/xi-1))*(((1/lambda)*(xi*(x1-threshold)/sigma+1)^(1/xi))^(-1/alpha -1))*
-              ((((1/lambda)*(xi*(x1-threshold)/sigma+1)^(1/xi))^(-1/alpha) + ((1/lambda)*(xi*(threshold-threshold)/sigma+1)^(1/xi))^(-1/alpha))^(alpha-1));
+    if(x1>threshold && x2<=threshold){
+     return ((1/(lambda*sigma))*(z1^(inv_xi-1))*((inv_lambda*z1^inv_xi)^(-inv_alpha -1))*(((inv_lambda*z1^inv_xi)^(-inv_alpha) + inv_lambda^(-inv_alpha))^(alpha-1)));
     
   }
-  if(x1<=threshold && x2>threshold){
-    return (1/(lambda*sigma))*((xi*(x2-threshold)/sigma +1)^(1/xi-1))*(((1/lambda)*(xi*(x2-threshold)/sigma+1)^(1/xi))^(-1/alpha -1))*
-      ((((1/lambda)*(xi*(x2-threshold)/sigma+1)^(1/xi))^(-1/alpha) + ((1/lambda)*(xi*(threshold-threshold)/sigma+1)^(1/xi))^(-1/alpha))^(alpha-1));
+    if(x1<=threshold && x2>threshold){
+     return((1/(lambda*sigma))*(z2^(inv_xi-1))*((inv_lambda*z2^inv_xi)^(-inv_alpha -1))*(((inv_lambda*z2^inv_xi)^(-inv_alpha) + inv_lambda^(-inv_alpha))^(alpha-1)));
     
   }
-  else{    
-    return (1-((((1/lambda)*(xi*(threshold-threshold)/sigma+1)^(1/xi))^(-1/alpha) + ((1/lambda)*(xi*(threshold-threshold)/sigma+1)^(1/xi))^(-1/alpha))^(alpha)));
-    
-    
+    else{    
+     return(1-((inv_lambda^(-1/alpha) + inv_lambda^(-1/alpha))^(alpha)));
+
   }
   
 }
