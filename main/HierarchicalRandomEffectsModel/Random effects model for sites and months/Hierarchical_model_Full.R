@@ -42,7 +42,7 @@ for(i in 1:M){
 }
 
 
-thresholds <- matrix(75,M,S)
+thresholds <- matrix(65,M,S)
 lambda <- matrix(NA,M,S)
 
 for(i in 1:M){
@@ -85,14 +85,17 @@ for(i in 1:M){
 
 #MCMC
 
-data_win <- list( M = M, S = S, threshold = thresholds, lambda = lambda, r = r/5, 
-                  b=0, c=10^-3,d=5*10^-3,e=15*10^-3,f=5*10^-2,g=15*10^-2,
+data_win <- list( S = S, M = M, r = r/5, 
                   y_dec = Ireland_monthly[[1]], y_jan = Ireland_monthly[[2]], y_feb = Ireland_monthly[[3]],
                   y_mar = Ireland_monthly[[4]], y_apr = Ireland_monthly[[5]], y_may = Ireland_monthly[[6]],
                   y_jun = Ireland_monthly[[7]], y_jul = Ireland_monthly[[8]], y_aug = Ireland_monthly[[9]],
-                  y_sep = Ireland_monthly[[10]], y_oct = Ireland_monthly[[11]], y_nov = Ireland_monthly[[12]] )
-fit <- stan(file = "Hierarchical_model_Full.stan", data = data_win, warmup = 1000, iter = 5000, 
-            chains = 1, thin = 10,seed = 199) 
+                  y_sep = Ireland_monthly[[10]], y_oct = Ireland_monthly[[11]], y_nov = Ireland_monthly[[12]],
+                  threshold = thresholds, lambda = lambda,maxim=maxim)
+
+
+fit <- stan(file = "Hierarchical_model_Full.stan", data = data_win, warmup = 2000, iter = 8000, 
+            chains = 2, thin = 10,seed = 19, init_r = 0.01 ) 
+help(stan)
 is(fit)
 print(fit, par = c('a_sigma','phi_sigma','a_xi','phi_xi','sigma', 'xi','alpha')) 
 

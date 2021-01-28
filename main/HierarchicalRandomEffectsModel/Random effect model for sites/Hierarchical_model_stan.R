@@ -5,6 +5,9 @@ library(POT)
 library(evir)
 library(loo)
 
+options(mc.cores = parallel::detectCores())
+rstan_options(auto_write = TRUE)
+
 
 Ireland <- read.csv('C:/Users/matte/OneDrive/Documenti/GitHub/Bayesian-Approach-to-EVT/Dataset/Ireland_daily_from1990.csv')
 head(Ireland)
@@ -31,6 +34,10 @@ graphics.off()
 thresholds <- rep(NA,m)
 lambda <- rep(NA,m)
 
+thresholds <- c(95,95,94,94,85)  #sono state scelte empiricamente
+for(i in 1:m){
+  lambda[i] <- length(spots[[i]][which(spots[[i]]$obs>thresholds[i]),2])/length(spots[[i]]$obs)
+}
 
 
 i=5#loop manuale (modificare i fino a 5)
