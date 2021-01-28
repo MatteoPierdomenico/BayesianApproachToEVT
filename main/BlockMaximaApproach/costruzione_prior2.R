@@ -51,7 +51,7 @@ N=length(y)
 plot(y)
 data_win <- list(N = N,  y = y, mu_mean=0, mu_var=100, sigma_mean=0, 
                  sigma_var=100, xi_mean=0, xi_var=100)                # I generate the values to give as input in stan
-fit <- stan(file = "GEV.stan", data = data_win, warmup = 1500, iter = 6000, 
+fit <- stan(file = "GEV2.stan", data = data_win, warmup = 1500, iter = 6000, 
             chains = 4, cores = 2, thin = 10, seed = 199)              #I use the log-posterior in the file GEV.stan        
 is(fit)
 print(fit, par = c('mu', 'sigma', 'xi')) 
@@ -168,7 +168,7 @@ plot(y)
 
 data_win <- list(N = N,  y = y, mu_mean=0, mu_var=100, sigma_mean=0, 
                  sigma_var=100, xi_mean=0, xi_var=100)                # I generate the values to give as input in stan
-fit1 <- stan(file = "GEV.stan", data = data_win, warmup = 1500, iter = 6000, 
+fit1 <- stan(file = "GEV2.stan", data = data_win, warmup = 1500, iter = 6000, 
             chains = 4, cores = 2, thin = 10, seed = 199)              #I use the log-posterior in the file GEV.stan        
 is(fit1)
 print(fit1, par = c('mu', 'sigma', 'xi')) 
@@ -220,7 +220,7 @@ waic(loglik1)
 
 data_win <- list(N = N,  y = y, mu_mean=mean_mu, mu_var=var_mu, sigma_mean=mean_sigma, 
                  sigma_var=var_sigma, xi_mean=mean_xi, xi_var=var_xi)                # I generate the values to give as input in stan
-fit2 <- stan(file = "GEV.stan", data = data_win, warmup = 1500, iter = 6000, 
+fit2 <- stan(file = "GEV2.stan", data = data_win, warmup = 1500, iter = 6000, 
              chains = 4, cores = 2, thin = 10, seed = 199)              #I use the log-posterior in the file GEV.stan        
 is(fit2)
 print(fit2, par = c('mu', 'sigma', 'xi')) 
