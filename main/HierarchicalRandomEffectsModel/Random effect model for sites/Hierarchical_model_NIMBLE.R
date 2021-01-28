@@ -67,38 +67,45 @@ for(i in 1:N){
   }
 }
 
+#FOMC_logit_GPD_joint_density <- nimbleFunction(
+#   run = function(x1=double(0),x2=double(0),threshold=double(0),sigma=double(0),xi=double(0),alpha=double(0), lambda=double(0)){
+#     returnType(double(0))
+#     z1 = 1 + xi*(x1 - threshold)*(1/sigma)
+#     z2 = 1 + xi*(x2- threshold)*(1/sigma)
+#     inv_xi = 1/xi
+#     inv_alpha = 1/alpha 
+#     if(x1>threshold & x2>threshold){
+#         return(-(z1^inv_xi*1/lambda)^(-inv_alpha)*(z2^inv_xi*1/lambda)^(-inv_alpha)*((z2^inv_xi*1/lambda)^(-inv_alpha) + (z1^inv_xi*1/lambda)^(-inv_alpha))^alpha/(sigma^2*(z1)*(z2)*(((z2)^(1/xi)*1/lambda)^(-inv_alpha) + ((z1)^(inv_xi)*1/lambda)^(-inv_alpha))^2) + ((z1)^(inv_xi)*1/lambda)^(-inv_alpha)*((z2)^(inv_xi)*1/lambda)^(-inv_alpha)*(((z2)^(inv_xi)*1/lambda)^(-inv_alpha) + ((z1)^(inv_xi)*1/lambda)^(-inv_alpha))^alpha/(alpha*sigma^2*(z1)*(z2)*(((z2)^(inv_xi)*1/lambda)^(-inv_alpha) + ((z1)^(inv_xi)*1/lambda)^(-inv_alpha))^2))
+#     }
+#     if(x1>threshold & x2<=threshold){
+#           return(((z1)^(inv_xi)*1/lambda)^(-inv_alpha)*(1/lambda^(-inv_alpha) + ((z1)^(1/xi)*1/lambda)^(-inv_alpha))^alpha/(sigma*(z1)*(1/lambda^(-inv_alpha) + ((z1)^(inv_xi)*1/lambda)^(-inv_alpha))))
+#       }
+#     if(x1<=threshold & x2>threshold){
+#         return(((z2)^(inv_xi)*1/lambda)^(-inv_alpha)*(1/lambda^(-inv_alpha) + ((z2)^(1/xi)*1/lambda)^(-inv_alpha))^alpha/(sigma*(z2)*(1/lambda^(-inv_alpha) + ((z2)^(inv_xi)*1/lambda)^(-inv_alpha))))
+#     }
+#     else{    
+#            return(1-((1/lambda^(-inv_alpha) + 1/lambda^(-inv_alpha))^(alpha)))
+#       }
+#})
 
 FOMC_logit_GPD_joint_density <- nimbleFunction(
   run = function(x1=double(0),x2=double(0),threshold=double(0),sigma=double(0),xi=double(0),alpha=double(0), lambda=double(0)){
-    returnType(double(0))
-    z1 <- 1 + xi*(x1 - threshold)/sigma
-    z2 <- 1 + xi*(x2- threshold)/sigma
-    inv_xi <- 1/xi
-    inv_alpha <- 1/alpha 
-    inv_lambda <- 1/lambda
+  returnType(double(0))
     if(x1>threshold & x2>threshold){
-     return(-(inv_lambda * z1^inv_xi)^(-inv_alpha)*(inv_lambda * z2^inv_xi)^(-inv_alpha)*((inv_lambda*z2^inv_xi)^(-inv_alpha) 
-            + (inv_lambda*z1^inv_xi)^(-inv_alpha))^alpha/(sigma^2*z1*z2*((inv_lambda*z2^inv_xi)^(-inv_alpha) 
-            + (inv_lambda*z1^inv_xi)^(-inv_alpha))^2) + (inv_lambda*z1^inv_xi)^(-inv_alpha)*(inv_lambda*z2^inv_xi)^(-inv_alpha)*((inv_lambda*z2^inv_xi)^(-inv_alpha) 
-            + (inv_lambda*z1^inv_xi)^(-inv_alpha))^alpha/(alpha*sigma^2*z1*z2*((inv_lambda*z2^inv_xi)^(-inv_alpha) + (inv_lambda*z1^inv_xi)^(-inv_alpha))^2))
+      return(-((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha)*((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha)*(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^alpha/(sigma^2*(1 + xi*(-threshold + x1)/sigma)*(1 + xi*(-threshold + x2)/sigma)*(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^2) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha)*((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha)*(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^alpha/(alpha*sigma^2*(1 + xi*(-threshold + x1)/sigma)*(1 + xi*(-threshold + x2)/sigma)*(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^2));
+    }
     
-  }
-  
     if(x1>threshold & x2<=threshold){
-     return((1/(lambda*sigma))*(z1^(inv_xi-1))*((inv_lambda*z1^inv_xi)^(-inv_alpha -1))*(((inv_lambda*z1^inv_xi)^(-inv_alpha) + inv_lambda^(-inv_alpha))^(alpha-1)))
-    
-  }
+      return(((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha)*((1/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^alpha/(sigma*(1 + xi*(-threshold + x1)/sigma)*((1/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))));
+    }
     if(x1<=threshold & x2>threshold){
-     return((1/(lambda*sigma))*(z2^(inv_xi-1))*((inv_lambda*z2^inv_xi)^(-inv_alpha -1))*(((inv_lambda*z2^inv_xi)^(-inv_alpha) + inv_lambda^(-inv_alpha))^(alpha-1)))
-    
-  }
+      return(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha)*((1 /lambda)^(-1/alpha) + ((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha))^alpha/(sigma*(1 + xi*(-threshold + x2)/sigma)*((1/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha))));
+    }
     else{    
-     return(1-((inv_lambda^(-1/alpha) + inv_lambda^(-1/alpha))^(alpha)))
-    
-    
-  }
-  
-})
+      return(1-(((1/lambda)^(-1/alpha) + (1/lambda)^(-1/alpha))^(alpha)));
+    }
+  })
+
 
 GPD_density <- nimbleFunction(
   run=function(x=double(0),threshold=double(0),scale=double(0), xi=double(0), lambda=double(0)){
@@ -133,14 +140,13 @@ dmyModel_lpost <- nimbleFunction(
 
 code <- nimbleCode({
   for(i in 1:M){
-    y[1:N,i] ~ dmyModel_lpost(threshold[i],exp(logsigma[i]),xi[i],lambda[i],alpha[i])}
+    y[1:N,i] ~ dmyModel_lpost(threshold[i],sigma[i],xi[i],lambda[i],alpha[i])}
   for(i in 1:M){
-    logsigma[i] ~ dnorm(a_sigma,phi_sigma)
     xi[i] ~ dnorm(a_xi,phi_xi)
-    constraint_data[i] ~ dconstraint( xi[i] + exp(logsigma[i])/(max(y[1:N,i])-threshold[i])>0 & threshold[i]>50 & threshold[i]<100)
-    alpha[i] ~ dunif(0,1)
-    lambda[i] ~ dunif(0.001,0.05)
-    threshold[i]~dnorm(80,0.1)}
+    constraint_data[i] ~ dconstraint( xi[i] > -sigma[i]/(max(y[1:N,i])-threshold[i]))
+    sigma[i] <- exp(logsigma[i])
+    logsigma[i] ~ dnorm(a_sigma,phi_sigma)
+    alpha[i] ~ dunif(0,1)}
   a_sigma ~ dnorm(b,c)
   a_xi ~ dnorm(b,c)
 #  phi_sigma ~ dgamma(f,f)
@@ -150,7 +156,7 @@ code <- nimbleCode({
 })
 
 
-pumpConsts <- list(M= m, N=N, b=0, c=10^-3,d=5*10^-3,e=15*10^-3,f=10^-2,g=15*10^-2)
+pumpConsts <- list(M= m, N=N,threshold = thresholds, lambda = lambda, b=0, c=10^-2,d=5*10^-3,e=15*10^-3,f=5*10^-2,g=15*10^-2)
 pumpData <-list(y = datamatrix)
 pumpInits<-list(phi_sigma=1, phi_xi=1)  #I valori iniziali servono solo se vengono usate delle gamma
 
@@ -158,8 +164,8 @@ Hmodel <- nimbleModel(code=code, name ="Hmodel", constants = pumpConsts, data=pu
 
 
 mcmc.out <- nimbleMCMC(model = Hmodel,
-                       niter = 6000, nchains = 2, thin = 10, nburnin = 1000, 
-                       monitors = c("a_sigma","a_xi","phi_sigma","phi_xi", "logsigma", "xi", "alpha", "threshold", "lambda"),
+                       niter = 8000, nchains = 3, thin = 10, nburnin = 2000, 
+                       monitors = c("a_sigma","a_xi","phi_sigma","phi_xi", "logsigma", "xi", "alpha", "sigma"),
                        summary = TRUE, WAIC = TRUE, samplesAsCodaMCMC  = TRUE, setSeed = TRUE)
 help(nimbleMCMC)
 

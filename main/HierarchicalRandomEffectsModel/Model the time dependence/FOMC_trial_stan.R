@@ -72,7 +72,7 @@ b <- 0
 c <- 10^-3
 g<-f<-10^-2
 data_win <- list( N = N, y = y, threshold = thresholds[1], lambda=lambda[1],b=b,c=c,f=f,g=g)
-fit <- stan(file = "First_order_Markov_chain_dependence.stan", data = data_win, warmup = 1000, iter = 2000, 
+fit <- stan(file = "First_order_Markov_chain_dependence.stan", data = data_win, warmup = 1000, iter = 4000, 
             chains = 2, thin = 10,seed = 109) 
 is(fit)
 print(fit, par = c('a_sigma','phi_sigma','a_xi','phi_xi','sigma', 'xi','alpha')) 

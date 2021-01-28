@@ -76,7 +76,7 @@ y <- cbind(spots[[1]][,2],spots[[2]][,2],spots[[3]][,2],spots[[4]][,2],spots[[5]
 N <- length(y[,1])
 M <- length(spots)
 b <- 0
-c <- 10^-3
+c <- 10^-2
 g<-f<-10^-2
 data_win <- list( N = N, M=M, y = y, threshold = thresholds, lambda=lambda,b=b,c=c,f=f,g=g)
 fit <- stan(file = "Hierarchical_model.stan", data = data_win, warmup = 1000, iter = 5000, 

@@ -17,65 +17,28 @@ functions {
   }
   
 }
-
-//   real FOMC_pdf(real x1,real x2,real threshold,real sigma,real xi,real alpha,real lambda){
-//    real z1 = 1 + xi*(x1 - threshold)/sigma;
-//    real z2 = 1 + xi*(x2- threshold)/sigma;
-//    real inv_xi = 1/xi;
-//    real inv_alpha = 1/alpha; 
-//    //real inv_lambda = 1/lambda;
+//real FOMC_pdf(real x1,real x2,real threshold,real sigma,real xi,real alpha,real lambda){
+//    real z1 = 1 + xi*(x1 - threshold)*(inv(sigma));
+//    real z2 = 1 + xi*(x2- threshold)*(inv(sigma));
+//    real inv_xi = inv(xi);
+//    real inv_alpha = inv(alpha); 
 //    if(x1>threshold && x2>threshold){
-//     //return (-(inv_lambda * z1^inv_xi)^(-inv_alpha)*(inv_lambda * z2^inv_xi)^(-inv_alpha)*((inv_lambda*z2^inv_xi)^(-inv_alpha) 
-//     //       + (inv_lambda*z1^inv_xi)^(-inv_alpha))^alpha/(sigma^2*z1*z2*((inv_lambda*z2^inv_xi)^(-inv_alpha) 
-//     //       + (inv_lambda*z1^inv_xi)^(-inv_alpha))^2) + (inv_lambda*z1^inv_xi)^(-inv_alpha)*(inv_lambda*z2^inv_xi)^(-inv_alpha)*((inv_lambda*z2^inv_xi)^(-inv_alpha) 
-//     //       + (inv_lambda*z1^inv_xi)^(-inv_alpha))^alpha/(alpha*sigma^2*z1*z2*((inv_lambda*z2^inv_xi)^(-inv_alpha) + (inv_lambda*z1^inv_xi)^(-inv_alpha))^2));
-//    //
-//    return(-(z1^inv_xi/lambda)^(-inv_alpha)*(z2^inv_xi/lambda)^(-inv_alpha)*((z2^inv_xi/lambda)^(-inv_alpha) + (z1^inv_xi/lambda)^(-inv_alpha))^alpha/(sigma^2*(z1)*(z2)*(((z2)^(1/xi)/lambda)^(-inv_alpha) + ((z1)^(inv_xi)/lambda)^(-inv_alpha))^2) + ((z1)^(inv_xi)/lambda)^(-inv_alpha)*((z2)^(inv_xi)/lambda)^(-inv_alpha)*(((z2)^(inv_xi)/lambda)^(-inv_alpha) + ((z1)^(inv_xi)/lambda)^(-inv_alpha))^alpha/(alpha*sigma^2*(z1)*(z2)*(((z2)^(inv_xi)/lambda)^(-inv_alpha) + ((z1)^(inv_xi)/lambda)^(-inv_alpha))^2));
+//      return(-(z1^inv_xi*inv(lambda))^(-inv_alpha)*(z2^inv_xi*inv(lambda))^(-inv_alpha)*((z2^inv_xi*inv(lambda))^(-inv_alpha) + (z1^inv_xi*inv(lambda))^(-inv_alpha))^alpha/(sigma^2*(z1)*(z2)*(((z2)^(1/xi)*inv(lambda))^(-inv_alpha) + ((z1)^(inv_xi)*inv(lambda))^(-inv_alpha))^2) + ((z1)^(inv_xi)*inv(lambda))^(-inv_alpha)*((z2)^(inv_xi)*inv(lambda))^(-inv_alpha)*(((z2)^(inv_xi)*inv(lambda))^(-inv_alpha) + ((z1)^(inv_xi)*inv(lambda))^(-inv_alpha))^alpha/(alpha*sigma^2*(z1)*(z2)*(((z2)^(inv_xi)*inv(lambda))^(-inv_alpha) + ((z1)^(inv_xi)*inv(lambda))^(-inv_alpha))^2));
 //  }
 //  
 //    if(x1>threshold && x2<=threshold){
-//     //return ((1/(lambda*sigma))*(z1^(inv_xi-1))*((inv_lambda*z1^inv_xi)^(-inv_alpha -1))*(((inv_lambda*z1^inv_xi)^(-inv_alpha) + inv_lambda^(-inv_alpha))^(alpha-1)));
-//    return(((z1)^(inv_xi)/lambda)^(-inv_alpha)*((1/lambda)^(-inv_alpha) + ((z1)^(1/xi)/lambda)^(-inv_alpha))^alpha/(sigma*(z1)*((1/lambda)^(-inv_alpha) + ((z1)^(inv_xi)/lambda)^(-inv_alpha))));
+//      return(((z1)^(inv_xi)*inv(lambda))^(-inv_alpha)*(inv(lambda)^(-inv_alpha) + ((z1)^(1/xi)*inv(lambda))^(-inv_alpha))^alpha/(sigma*(z1)*(inv(lambda)^(-inv_alpha) + ((z1)^(inv_xi)*inv(lambda))^(-inv_alpha))));
 //  }
 //    if(x1<=threshold && x2>threshold){
-//     //return((1/(lambda*sigma))*(z2^(inv_xi-1))*((inv_lambda*z2^inv_xi)^(-inv_alpha -1))*(((inv_lambda*z2^inv_xi)^(-inv_alpha) + inv_lambda^(-inv_alpha))^(alpha-1)));
-//return(((z2)^(inv_xi)/lambda)^(-inv_alpha)*((1/lambda)^(-inv_alpha) + ((z2)^(1/xi)/lambda)^(-inv_alpha))^alpha/(sigma*(z2)*((1/lambda)^(-inv_alpha) + ((z2)^(inv_xi)/lambda)^(-inv_alpha))));
+//      return(((z2)^(inv_xi)*inv(lambda))^(-inv_alpha)*(inv(lambda)^(-inv_alpha) + ((z2)^(1/xi)*inv(lambda))^(-inv_alpha))^alpha/(sigma*(z2)*(inv(lambda)^(-inv_alpha) + ((z2)^(inv_xi)*inv(lambda))^(-inv_alpha))));
 //  }
 //    else{    
-//     //return(1-((inv_lambda^(-1/alpha) + inv_lambda^(-1/alpha))^(alpha)));
-//       return(1-(((1/lambda)^(-inv_alpha) + (1/lambda)^(-inv_alpha))^(alpha)));
+//       return(1-((inv(lambda)^(-inv_alpha) + inv(lambda)^(-inv_alpha))^(alpha)));
 //  }
 //  
 //}
 //
-//   real FOMC_pdf(real x1,real x2,real threshold,real sigma,real xi,real alpha,real lambda){
-//    real z1 = 1 + xi*(x1 - threshold)/sigma;
-//    real z2 = 1 + xi*(x2- threshold)/sigma;
-//    real inv_xi = 1/xi;
-//    real inv_alpha = 1/alpha; 
-//    real inv_lambda = 1/lambda;
-//    real l1 = inv_lambda*z1^inv_xi;
-//    real l2 = inv_lambda*z2^inv_xi;
-//    if(x1>threshold && x2>threshold){
-//    return(-l1^(-inv_alpha)*l2^(-inv_alpha)*(l2^(-inv_alpha) + l1^(-inv_alpha))^alpha/(sigma^2*z1*z2*(l2^(-inv_alpha) 
-//           +l1^(-inv_alpha))^2) + l1^(-inv_alpha)*l2^(-inv_alpha)*(l2^(-inv_alpha) 
-//           +l1^(-inv_alpha))^alpha/(alpha*sigma^2*z1*z2*(l2^(-inv_alpha) + l1^(-inv_alpha))^2));
-//  }
-//  
-//    if(x1>threshold && x2<=threshold){
-//     //return ((1/(lambda*sigma))*(z1^(inv_xi-1))*((inv_lambda*z1^inv_xi)^(-inv_alpha -1))*(((inv_lambda*z1^inv_xi)^(-inv_alpha) + inv_lambda^(-inv_alpha))^(alpha-1)));
-//    return(l1^(-1/alpha)*(inv_lambda^(-inv_alpha) + l1^(-inv_alpha))^alpha/(sigma*z1*(inv_lambda^(-inv_alpha) + l1^(-inv_alpha))));
-//  }
-//    if(x1<=threshold && x2>threshold){
-//     //return((1/(lambda*sigma))*(z2^(inv_xi-1))*((inv_lambda*z2^inv_xi)^(-inv_alpha -1))*(((inv_lambda*z2^inv_xi)^(-inv_alpha) + inv_lambda^(-inv_alpha))^(alpha-1)));
-//    return(l2^(-inv_alpha)*((inv_lambda)^(-inv_alpha) + l2^(-inv_alpha))^alpha/(sigma*z2*(inv_lambda^(-inv_alpha) + l2^(-inv_alpha))));
-//  }
-//    else{    
-//     //return(1-((inv_lambda^(-1/alpha) + inv_lambda^(-1/alpha))^(alpha)));
-//       return(1-((inv_lambda^(-inv_alpha) + inv_lambda^(-inv_alpha))^(alpha)));
-//  }
-//  
-//}
+//
 
 
 real gpd_lpdf(real y,real ymin,real sigma,real xi, real lambda){

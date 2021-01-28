@@ -1,52 +1,43 @@
 // source: https://mc-stan.org/users/documentation/case-studies/gpareto_functions.html
 
 functions {
-   real FOMC_pdf(real x1,real x2,real threshold,real sigma,real xi,real alpha,real lambda){
-       if(x1>threshold && x2>threshold){
-        return(-((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha)*((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha)*(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^alpha/(sigma^2*(1 + xi*(-threshold + x1)/sigma)*(1 + xi*(-threshold + x2)/sigma)*(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^2) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha)*((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha)*(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^alpha/(alpha*sigma^2*(1 + xi*(-threshold + x1)/sigma)*(1 + xi*(-threshold + x2)/sigma)*(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^2));
-  }
-  
-    if(x1>threshold && x2<=threshold){
-      return(((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha)*((1/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^alpha/(sigma*(1 + xi*(-threshold + x1)/sigma)*((1/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))));
-  }
-    if(x1<=threshold && x2>threshold){
-      return(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha)*((1 /lambda)^(-1/alpha) + ((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha))^alpha/(sigma*(1 + xi*(-threshold + x2)/sigma)*((1/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha))));
-  }
-    else{    
-       return(1-(((1/lambda)^(-1/alpha) + (1/lambda)^(-1/alpha))^(alpha)));
-  }
-  
-}
-
 //   real FOMC_pdf(real x1,real x2,real threshold,real sigma,real xi,real alpha,real lambda){
-//    real z1 = 1 + xi*(x1 - threshold)/sigma;
-//    real z2 = 1 + xi*(x2- threshold)/sigma;
-//    real inv_xi = 1/xi;
-//    real inv_alpha = 1/alpha; 
-//    //real inv_lambda = 1/lambda;
-//    if(x1>threshold && x2>threshold){
-//     //return (-(inv_lambda * z1^inv_xi)^(-inv_alpha)*(inv_lambda * z2^inv_xi)^(-inv_alpha)*((inv_lambda*z2^inv_xi)^(-inv_alpha) 
-//     //       + (inv_lambda*z1^inv_xi)^(-inv_alpha))^alpha/(sigma^2*z1*z2*((inv_lambda*z2^inv_xi)^(-inv_alpha) 
-//     //       + (inv_lambda*z1^inv_xi)^(-inv_alpha))^2) + (inv_lambda*z1^inv_xi)^(-inv_alpha)*(inv_lambda*z2^inv_xi)^(-inv_alpha)*((inv_lambda*z2^inv_xi)^(-inv_alpha) 
-//     //       + (inv_lambda*z1^inv_xi)^(-inv_alpha))^alpha/(alpha*sigma^2*z1*z2*((inv_lambda*z2^inv_xi)^(-inv_alpha) + (inv_lambda*z1^inv_xi)^(-inv_alpha))^2));
-//    //
-//    return(-(z1^inv_xi/lambda)^(-inv_alpha)*(z2^inv_xi/lambda)^(-inv_alpha)*((z2^inv_xi/lambda)^(-inv_alpha) + (z1^inv_xi/lambda)^(-inv_alpha))^alpha/(sigma^2*(z1)*(z2)*(((z2)^(1/xi)/lambda)^(-inv_alpha) + ((z1)^(inv_xi)/lambda)^(-inv_alpha))^2) + ((z1)^(inv_xi)/lambda)^(-inv_alpha)*((z2)^(inv_xi)/lambda)^(-inv_alpha)*(((z2)^(inv_xi)/lambda)^(-inv_alpha) + ((z1)^(inv_xi)/lambda)^(-inv_alpha))^alpha/(alpha*sigma^2*(z1)*(z2)*(((z2)^(inv_xi)/lambda)^(-inv_alpha) + ((z1)^(inv_xi)/lambda)^(-inv_alpha))^2));
+//       if(x1>threshold && x2>threshold){
+//        return(-((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha)*((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha)*(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^alpha/(sigma^2*(1 + xi*(-threshold + x1)/sigma)*(1 + xi*(-threshold + x2)/sigma)*(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^2) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha)*((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha)*(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^alpha/(alpha*sigma^2*(1 + xi*(-threshold + x1)/sigma)*(1 + xi*(-threshold + x2)/sigma)*(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^2));
 //  }
 //  
 //    if(x1>threshold && x2<=threshold){
-//     //return ((1/(lambda*sigma))*(z1^(inv_xi-1))*((inv_lambda*z1^inv_xi)^(-inv_alpha -1))*(((inv_lambda*z1^inv_xi)^(-inv_alpha) + inv_lambda^(-inv_alpha))^(alpha-1)));
-//    return(((z1)^(inv_xi)/lambda)^(-inv_alpha)*((1/lambda)^(-inv_alpha) + ((z1)^(1/xi)/lambda)^(-inv_alpha))^alpha/(sigma*(z1)*((1/lambda)^(-inv_alpha) + ((z1)^(inv_xi)/lambda)^(-inv_alpha))));
+//      return(((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha)*((1/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))^alpha/(sigma*(1 + xi*(-threshold + x1)/sigma)*((1/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x1)/sigma)^(1/xi)/lambda)^(-1/alpha))));
 //  }
 //    if(x1<=threshold && x2>threshold){
-//     //return((1/(lambda*sigma))*(z2^(inv_xi-1))*((inv_lambda*z2^inv_xi)^(-inv_alpha -1))*(((inv_lambda*z2^inv_xi)^(-inv_alpha) + inv_lambda^(-inv_alpha))^(alpha-1)));
-//return(((z2)^(inv_xi)/lambda)^(-inv_alpha)*((1/lambda)^(-inv_alpha) + ((z2)^(1/xi)/lambda)^(-inv_alpha))^alpha/(sigma*(z2)*((1/lambda)^(-inv_alpha) + ((z2)^(inv_xi)/lambda)^(-inv_alpha))));
+//      return(((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha)*((1 /lambda)^(-1/alpha) + ((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha))^alpha/(sigma*(1 + xi*(-threshold + x2)/sigma)*((1/lambda)^(-1/alpha) + ((1 + xi*(-threshold + x2)/sigma)^(1/xi)/lambda)^(-1/alpha))));
 //  }
 //    else{    
-//     //return(1-((inv_lambda^(-1/alpha) + inv_lambda^(-1/alpha))^(alpha)));
-//       return(1-(((1/lambda)^(-inv_alpha) + (1/lambda)^(-inv_alpha))^(alpha)));
+//       return(1-(((1/lambda)^(-1/alpha) + (1/lambda)^(-1/alpha))^(alpha)));
 //  }
 //  
 //}
+
+   real FOMC_pdf(real x1,real x2,real threshold,real sigma,real xi,real alpha,real lambda){
+    real z1 = 1 + xi*(x1 - threshold)*(inv(sigma));
+    real z2 = 1 + xi*(x2- threshold)*(inv(sigma));
+    real inv_xi = inv(xi);
+    real inv_alpha = inv(alpha); 
+    if(x1>threshold && x2>threshold){
+      return(-(z1^inv_xi*inv(lambda))^(-inv_alpha)*(z2^inv_xi*inv(lambda))^(-inv_alpha)*((z2^inv_xi*inv(lambda))^(-inv_alpha) + (z1^inv_xi*inv(lambda))^(-inv_alpha))^alpha/(sigma^2*(z1)*(z2)*(((z2)^(1/xi)*inv(lambda))^(-inv_alpha) + ((z1)^(inv_xi)*inv(lambda))^(-inv_alpha))^2) + ((z1)^(inv_xi)*inv(lambda))^(-inv_alpha)*((z2)^(inv_xi)*inv(lambda))^(-inv_alpha)*(((z2)^(inv_xi)*inv(lambda))^(-inv_alpha) + ((z1)^(inv_xi)*inv(lambda))^(-inv_alpha))^alpha/(alpha*sigma^2*(z1)*(z2)*(((z2)^(inv_xi)*inv(lambda))^(-inv_alpha) + ((z1)^(inv_xi)*inv(lambda))^(-inv_alpha))^2));
+  }
+  
+    if(x1>threshold && x2<=threshold){
+      return(((z1)^(inv_xi)*inv(lambda))^(-inv_alpha)*(inv(lambda)^(-inv_alpha) + ((z1)^(1/xi)*inv(lambda))^(-inv_alpha))^alpha/(sigma*(z1)*(inv(lambda)^(-inv_alpha) + ((z1)^(inv_xi)*inv(lambda))^(-inv_alpha))));
+  }
+    if(x1<=threshold && x2>threshold){
+      return(((z2)^(inv_xi)*inv(lambda))^(-inv_alpha)*(inv(lambda)^(-inv_alpha) + ((z2)^(1/xi)*inv(lambda))^(-inv_alpha))^alpha/(sigma*(z2)*(inv(lambda)^(-inv_alpha) + ((z2)^(inv_xi)*inv(lambda))^(-inv_alpha))));
+  }
+    else{    
+       return(1-((inv(lambda)^(-inv_alpha) + inv(lambda)^(-inv_alpha))^(alpha)));
+  }
+  
+}
 //
 //   real FOMC_pdf(real x1,real x2,real threshold,real sigma,real xi,real alpha,real lambda){
 //    real z1 = 1 + xi*(x1 - threshold)/sigma;
