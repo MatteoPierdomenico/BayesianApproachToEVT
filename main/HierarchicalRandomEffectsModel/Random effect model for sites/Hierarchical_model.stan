@@ -60,21 +60,6 @@ real gpd_lpdf(real y,real ymin,real sigma,real xi, real lambda){
 
 
 
-real gpareto_lpdf(vector y, real ymin, real xi, real sigma) {
-  // generalised Pareto log pdf 
-  int N = rows(y);
-  real inv_xi = inv(xi);
-  if (xi<0 && max(y-ymin)/sigma > -inv_xi)
-    reject("xi<0 and max(y-ymin)/sigma > -1/xi; found xi, sigma =", xi, sigma);
-  if (sigma<=0)
-    reject("sigma<=0; found sigma =", sigma);
-  if (fabs(xi) > 1e-15)
-    return -(1+inv_xi)*sum(log1p((y-ymin) * (xi/sigma))) -N*log(sigma);
-  else
-    return -sum(y-ymin)/sigma -N*log(sigma); // limit xi->0
-}
-
-
 real Hmodel_lpdf(vector x,real threshold,real scale,real xi,real lambda,real alpha){
   int N = rows(x);
   real likelihood = gpd_lpdf(x[1] | threshold,scale,xi, lambda);
@@ -85,7 +70,7 @@ real Hmodel_lpdf(vector x,real threshold,real scale,real xi,real lambda,real alp
     denom = gpd_lpdf(x[i] | threshold,scale,xi,lambda) + denom;
   }
   likelihood = likelihood+ num -denom;
-  return likelihood;
+  return num;
 }
 }
 
@@ -97,10 +82,6 @@ data {
   vector<lower=0>[M] lambda;
   real b;
   real c;
-  real f;
-  real g;
-  // int<lower=0> Nt;
-  // vector<lower=ymin>[Nt] yt;
 }
 
 transformed data{
@@ -116,19 +97,20 @@ parameters {
   real<lower=0.005,upper=0.015> phi_sigma;
   real<lower=0.05,upper=0.15> phi_xi;
   vector<lower=0,upper=1>[M] alpha;
-  vector<lower=0>[M] sigma; 
+  vector[M] logsigma;
   vector[M] xi; 
 
 }
 transformed parameters{
   vector<lower=0>[M] xi_star;
+  vector<lower=0>[M] sigma; 
   real<lower=0> tau_sigma;
   real<lower=0> tau_xi;
   tau_sigma =(1/phi_sigma);
   tau_xi =(1/phi_xi);
   for(i in 1:M){
+    sigma[i] = exp(logsigma[i]);
     xi_star[i] = xi[i] + sigma[i]/(max(y[,i])-threshold[i]);
-    
   }
 }
 
@@ -138,31 +120,24 @@ model {
   //layer 3
   a_sigma ~ normal(b,tau_a);
   a_xi ~ normal(b,tau_a);
-  //phi_sigma ~ gamma(f,g);    
-  //phi_xi ~ gamma(f,g);
+
   phi_sigma ~ uniform(0.005,0.015);
   phi_xi ~ uniform(0.05,0.15);
   
   //layer 2 
   
-  for(i in 1:M){
-    target += normal_lpdf(sigma[i] | a_sigma,tau_sigma);
-    target += normal_lpdf(xi[i] | a_xi,tau_xi);
-  }
-  //sigma ~ lognormal(a_sigma,1/phi_sigma);
-  //xi ~ normal(a_xi,1/phi_xi);
+  logsigma ~ normal(a_sigma,tau_sigma);
+  xi ~ normal(a_xi,tau_xi);
   alpha ~ uniform(0,1);
+  
   //layer 1
   
   for(i in 1:M){
-    target += Hmodel_lpdf(y[,i]| threshold[i], sigma[i], xi[i],lambda[i], alpha[i]);
+    y[,i] ~ Hmodel(threshold[i], sigma[i], xi[i],lambda[i], alpha[i]);
   }
   //for(i in 1:M){
-  //  target += gpareto_lpdf(y[,i]| threshold[i], xi[i], sigma[i]);
+  //  for(j in 1:N){
+  //    target += gpd_lpdf(y[j,i]| threshold[i], sigma[i], xi[i], lambda[i]);
   //}
-  //
-  //for(i in 1:M){
-  //  y[,i] ~ gpareto(threshold[i],xi[i],sigma[i]);
   //}
-  //
 }

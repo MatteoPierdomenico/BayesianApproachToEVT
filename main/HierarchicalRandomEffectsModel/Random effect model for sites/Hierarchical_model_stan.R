@@ -76,11 +76,11 @@ y <- cbind(spots[[1]][,2],spots[[2]][,2],spots[[3]][,2],spots[[4]][,2],spots[[5]
 N <- length(y[,1])
 M <- length(spots)
 b <- 0
-c <- 10^-2
-g<-f<-10^-2
-data_win <- list( N = N, M=M, y = y, threshold = thresholds, lambda=lambda,b=b,c=c,f=f,g=g)
-fit <- stan(file = "Hierarchical_model.stan", data = data_win, warmup = 1000, iter = 5000, 
-            chains = 2, thin = 10,seed = 199) 
+c <- 10^-3
+data_win <- list( N = N, M=M, y = y, threshold = thresholds, lambda=lambda,b=b,c=c)
+
+fit <- stan(file = "Hierarchical_model.stan", data = data_win, warmup = 1000, iter = 1500, 
+            chains = 2, thin = 1,seed = 199, init_r = .01) 
 is(fit)
 print(fit, par = c('a_sigma','phi_sigma','a_xi','phi_xi','sigma', 'xi','alpha')) 
 
@@ -156,7 +156,7 @@ ests1 <- c(median(estim[, 1]), median(estim[, 2]))
 ests2 <- array(0, c(2, 2))
 ests2[1, ] <- c(quantile(estim[, 1], 0.025), quantile(estim[, 2], 0.025))
 ests2[2, ] <- c(quantile(estim[, 1], 0.975), quantile(estim[, 2], 0.975))
-results <- list(posterior = estim, data = y, postmean = ests, 
+results <- list(posterior = estim, data = y[y[,3]>thresholds[3],3], postmean = ests, 
                 postmedian = ests1, postCI = ests2)
 names(results$postmean) <- c("sigma", "xi")
 names(results$postmedian) <- c( "sigma", "xi")
