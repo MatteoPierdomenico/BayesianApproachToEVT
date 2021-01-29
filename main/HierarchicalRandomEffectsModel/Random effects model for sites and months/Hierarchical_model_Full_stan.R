@@ -93,8 +93,8 @@ data_win <- list( S = S, M = M, r = r/5,
                   threshold = thresholds, lambda = lambda,maxim=maxim)
 
 
-fit <- stan(file = "Hierarchical_model_Full.stan", data = data_win, warmup = 1000, iter = 2000, 
-            chains = 2, thin = 10,seed = 19, init_r= 0.01) 
+fit <- stan(file = "Hierarchical_model_Full.stan", data = data_win, warmup = 400, iter = 600, 
+            chains = 2, thin = 1,seed = 19, init_r= 0.01) 
 help(stan)
 is(fit)
 print(fit, par = c('a_sigma','phi_sigma','a_xi','phi_xi','sigma', 'xi','alpha')) 

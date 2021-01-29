@@ -163,8 +163,8 @@ transformed parameters{
 
 model{
   //layer 3
-  a_sigma ~ normal(0,100);
-  a_xi ~ normal(0,100);
+  a_sigma ~ normal(0,1000); //100 if it doesn't work
+  a_xi ~ normal(0,1000);
   
   phi_sigma ~ uniform(0.005,0.020);
   phi_xi ~ uniform(0.01,0.15);
