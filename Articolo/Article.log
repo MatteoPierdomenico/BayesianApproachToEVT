@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.12) (preloaded format=pdflatex 2021.1.15)  15 JAN 2021 21:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.12) (preloaded format=pdflatex 2021.1.15)  31 JAN 2021 19:40
 entering extended mode
 **./Article.tex
 (Article.tex
@@ -925,16 +925,16 @@ Overfull \hbox (2.61107pt too wide) has occurred while \output is active
 
 {C:/Users/matte/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
 
-Package natbib Warning: Empty `thebibliography' environment on input line 166.
+Package natbib Warning: Empty `thebibliography' environment on input line 171.
 
 [2
 
 ] (Article.aux) ) 
 Here is how much of TeX's memory you used:
- 19751 strings out of 479618
- 370511 string characters out of 2863090
- 646325 words of memory out of 3000000
- 36554 multiletter control sequences out of 15000+200000
+ 19752 strings out of 479618
+ 370522 string characters out of 2863090
+ 649325 words of memory out of 3000000
+ 36555 multiletter control sequences out of 15000+200000
  446768 words of font info for 53 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  102i,6n,103p,460b,266s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -945,7 +945,7 @@ pe1/public/lm/lmr12.pfb><C:/Users/matte/AppData/Local/Programs/MiKTeX 2.9/fonts
 /type1/public/lm/lmr17.pfb><C:/Users/matte/AppData/Local/Programs/MiKTeX 2.9/fo
 nts/type1/public/lm/lmri10.pfb><C:/Users/matte/AppData/Local/Programs/MiKTeX 2.
 9/fonts/type1/public/lm/lmri12.pfb>
-Output written on Article.pdf (2 pages, 108960 bytes).
+Output written on Article.pdf (2 pages, 116075 bytes).
 PDF statistics:
  33 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
