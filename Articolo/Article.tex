@@ -157,15 +157,32 @@
 \section{Introduction}
 \label{S:1}
 \subsection{\textit{Extreme Value Theory}}
-Due to their rarity, events like mutational occurrances during evolution, atmospheric pollutions or natural disasters have long captured the public's attention and often they are shrouded in mystery.\\
+Due to their rarity, events like epidemies, high atmospheric pollutions or natural disasters have long captured the public's attention and often they are shrouded in mystery.\\
 A particular branch of statistics, Extreme Value Theory (\textit{EVT}), offers insights to their inherent scarcity and stark magnitude. \\
-Moreover, in the few last decades the \textit{EVT} literature has grown considerably, with applied interest in engineering, oceanography, environment and economics, among others, that is because it allows us extrapolate informations beyond the range of available data.
+Moreover, in the few last decades the \textit{EVT} literature has grown considerably, with applied interest in engineering, oceanography, environment and economics, among others, and that is because it allows us extrapolate informations beyond the range of available data.
 \\
 Unlike other statistical approaches, which are more concerned with the 'center' of probability distributions, Extreme Value Theory focuses on the tails of the distributions, i.e. either on maxima or minimal values, the extreme deviations from the median.
+
+
+\subsection{\textit{Approaches for practical extreme value analysis }}
+Given an ordered sample of a given random variable (or Given a set of continuous observations?), there exist two approaches to select the extremes for the analysis.
+\\ 
+The first approach is called \textit{Block Maxima} approach and it relies in dividing the dataset into blocks sufficiently large and then, picking the maximum over each sample, deriving the block maxima series.
 \\
+The second approach is called \textit{Peak Over Threshold (POT)} and it consists in picking a threshold and extracting, from a continuous record, all the observation exceeding that threshold.
 
+\subsection{\textit{Extreme daily high gust in Ireland (or The Dataset)}}
 
-\subsection{\textit{Extreme daily high gust in Ireland}}
+In this paper we use a bayesian approach to develop models  for daily highest wind gust over a region
+of central and southern Ireland. The data that are used consists of daily maximum wind gust recorded by the Irish National Meteorological Service at 5 locations (Fig \ref{figure:Ireland}), namely we considered 5 different counties (\textit{Clare, Clarke, Dublin, Kerry} and \textit{Westmeath}).
+
+\begin{figure}[!h]
+\captionsetup[subfigure]{labelformat=empty}
+\subfloat[]{\includegraphics[width=1.4\linewidth]{Immagini/Ireland}} \quad
+\caption{Map of the wind speed stations considered with the relative 30 years daily time series of maximum daily wind gust.}
+\label{figure:Ireland}
+\end{figure}
+
 
 %%%%%%%%%%%%%%%%%%%%% BIBLIOGRAPHY %%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
