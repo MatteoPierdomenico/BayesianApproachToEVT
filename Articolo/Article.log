@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.12) (preloaded format=pdflatex 2021.1.15)  3 FEB 2021 00:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.12) (preloaded format=pdflatex 2021.1.15)  3 FEB 2021 11:52
 entering extended mode
 **./Article.tex
 (Article.tex
@@ -927,28 +927,39 @@ Overfull \hbox (2.61107pt too wide) has occurred while \output is active
 <Immagini/Ireland.png, id=13, 1156.32pt x 650.43pt>
 File: Immagini/Ireland.png Graphic file (type png)
 <use Immagini/Ireland.png>
-Package pdftex.def Info: Immagini/Ireland.png  used on input line 181.
+Package pdftex.def Info: Immagini/Ireland.png  used on input line 182.
 (pdftex.def)             Requested size: 545.99762pt x 307.12138pt.
 
-Overfull \hbox (155.99762pt too wide) in paragraph at lines 181--182
+Overfull \hbox (155.99762pt too wide) in paragraph at lines 182--183
 [][] 
  []
 
 [2 <./Immagini/Ireland.png>]
+<Immagini/Kerry_data.png, id=18, 870.25125pt x 362.5545pt>
+File: Immagini/Kerry_data.png Graphic file (type png)
+<use Immagini/Kerry_data.png>
+Package pdftex.def Info: Immagini/Kerry_data.png  used on input line 193.
+(pdftex.def)             Requested size: 390.0pt x 162.47862pt.
+<Immagini/Westmeath_data.png, id=20, 867.84225pt x 361.95226pt>
+File: Immagini/Westmeath_data.png Graphic file (type png)
+<use Immagini/Westmeath_data.png>
+Package pdftex.def Info: Immagini/Westmeath_data.png  used on input line 194.
+(pdftex.def)             Requested size: 390.0pt x 162.6616pt.
+ [3 <./Immagini/Kerry_data.png> <./Immagini/Westmeath_data.png>] [4]
 
-Package natbib Warning: Empty `thebibliography' environment on input line 190.
+Package natbib Warning: Empty `thebibliography' environment on input line 211.
 
-[3
+[5
 
 ] (Article.aux) ) 
 Here is how much of TeX's memory you used:
- 19771 strings out of 479618
- 370882 string characters out of 2863090
- 650331 words of memory out of 3000000
- 36571 multiletter control sequences out of 15000+200000
+ 19788 strings out of 479618
+ 371307 string characters out of 2863090
+ 650341 words of memory out of 3000000
+ 36586 multiletter control sequences out of 15000+200000
  446768 words of font info for 53 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 102i,10n,103p,460b,387s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 102i,10n,103p,468b,391s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/matte/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dv
 ips/lm/lm-ec.enc}<C:/Users/matte/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
 public/lm/lmbx12.pfb><C:/Users/matte/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
@@ -957,9 +968,9 @@ pe1/public/lm/lmr10.pfb><C:/Users/matte/AppData/Local/Programs/MiKTeX 2.9/fonts
 nts/type1/public/lm/lmr17.pfb><C:/Users/matte/AppData/Local/Programs/MiKTeX 2.9
 /fonts/type1/public/lm/lmri10.pfb><C:/Users/matte/AppData/Local/Programs/MiKTeX
  2.9/fonts/type1/public/lm/lmri12.pfb>
-Output written on Article.pdf (3 pages, 603705 bytes).
+Output written on Article.pdf (5 pages, 989488 bytes).
 PDF statistics:
- 41 PDF objects out of 1000 (max. 8388607)
+ 52 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 18 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 28 words of extra memory for PDF output out of 10000 (max. 10000000)
 
