@@ -174,8 +174,9 @@ The second approach is called \textit{Peak Over Threshold (POT)} and it consists
 \subsection{\textit{Extreme daily high gust in Ireland (or The Dataset)}}
 
 In this paper we use a Bayesian approach to develop models  for daily highest wind gusts over a region
-of central and southern Ireland. The data that are used consists of daily maximum wind gusts recorded by the Irish National Meteorological Service at 5 locations (Fig \ref{figure:Ireland}), namely we considered 5 different counties (\textit{Clare, Clarke, Dublin, Kerry} and \textit{Westmeath}) and data recorded from one station for each county. 
+of central and southern Ireland. The data adopted for the analysis consists of daily maximum wind gusts recorded by the Irish National Meteorological Service at 5 locations (Fig \ref{figure:Ireland}), namely we considered data recorded by 5 different station, each of them situated in a different county (\textit{Clare, Clarke, Dublin, Kerry} and \textit{Westmeath}).  
 For all the sites, data are recorded over a period of 30 years, from December 1st, 1990 to November 30th, 2020, constituting 54790 observations at each site.
+
 
 \begin{figure}[!h]
 \captionsetup[subfigure]{labelformat=empty}
@@ -197,6 +198,13 @@ The effects of these differences are clearly seen in Fig \ref{figure:Data}, wher
 \end{figure}
 
 \subsection{\textit{The models}}
+In the first part of this article we will focus on two simple models to analyze the EVT for daily highest wind gusts in just one single site, using respectively Block Maxima Approach and POT. \\
+In the second part we will focus on a more complicated model which is a hierarchical random effects model that incorporates random effects for the sites, the monthly (seasonal?) variation and the serial dependence that it is ineherent in the time series of daily maximum speeds obtained at each site.
+As we have seen before, wind gusts can be very different in magnitude from one site to another, but it is also possible to find differences in intensity if we consider data observed in winter w.r.t data observed in summer for every single site.
+The aim of our hierarchical model is to use the complex structure inherent in the data to improve the "simplicistic" inferential procedure adopted in the first models which is presented in section two and trhee.
+\\
+As highlighted in detail in \cite{EVT:1},\cite{EVT:2},\cite{EVT:3}, \cite{EVT:4} and \cite{EVT:7}, Bayesian approach is a really good means of exploiting data on extreme events. The methods adopted to address our problems of inference are Markov Chain Monte Carlo methods, implemented by means of  softwares such as STAN,JAGS and NIMBLE.
+
 
 
 
@@ -208,6 +216,35 @@ The effects of these differences are clearly seen in Fig \ref{figure:Data}, wher
 %%%%%%%%%%%%%%%%%%%%% BIBLIOGRAPHY %%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \begin{thebibliography}{99}
+\bibitem{EVT:1}
+L.Fawcett,D. Walshaw.
+\emph{Modelling Environmental Extremes}
+Short Course for the 19th Annual Conference of The International Environmetrics Society, The University of British Columbia kanagan, Kelowna, Canada (2008)
+\bibitem{EVT:2}
+Jacob M., Neves C., Vukadinović Greetham D.  
+\emph{Extreme Value Theory. In: Forecasting and Assessing Risk of Individual Electricity Peaks}
+Mathematics of Planet Earth. Springer (2020), Cham. 
+\bibitem{EVT:3}
+Behrens, C.N., Lopes H.F., Gamerman D.  
+\emph{Bayesian analysis of extreme
+events with threshold estimation}
+Statist. Mod.  (2004), 4, 227–244.
+\bibitem{EVT:4}
+N.A.M. Amina, M.B. Adam, A.Z. Aris
+\emph{Bayesian Extreme for modeling high PM10 concentration in Johor }
+Procedia Environmental Sciences 30 ( 2015 ) 309 – 314 
+\bibitem{EVT:5}
+Fawcett, L. and Walshaw, D.,
+\emph{ A hierarchical model for extreme wind speeds.}
+Journal of the Royal Statistical Society: Series C (Applied Statistics), 55: 631-646 (2006). 
+\bibitem{EVT:6}
+Scarrott, Carl, and Anna MacDonald. 
+\emph{Scarrott, Carl, and Anna MacDonald. A review of extreme value threshold es-timation and uncertainty quantification.}
+REVSTAT–Statistical Journal 10.1 (2012): 33-60.
+\bibitem{EVT:7}
+Coles, Stuart G., and Jonathan A. Tawn. 
+\emph{A Bayesian Analysis of Extreme Rainfall Data.} 
+Journal of the Royal Statistical Society. Series C (Applied Statistics), vol. 45, no. 4, (1996), pp. 463–478. 
 \end{thebibliography}
 \end{document}
 
