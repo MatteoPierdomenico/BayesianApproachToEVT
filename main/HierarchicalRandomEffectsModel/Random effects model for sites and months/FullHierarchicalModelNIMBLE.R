@@ -1,3 +1,7 @@
+## NIMBLE version of the Hierarchical random effects model for daily maximum wind gusts
+## varying by months and sites.
+
+
 library(ggplot2)
 library(POT)
 library(lubridate)
@@ -27,7 +31,8 @@ for(i in 1:M){
   r[i] <- length(Ireland_monthly[[i]]$obs)
 }
 
-
+## Building a list of matrices, containing monthly observations of daily maximum 
+## wind gusts for each site
 
 for(i in 1:M){
   data<-matrix(NA,(r[i]/5),S)
@@ -41,7 +46,53 @@ for(i in 1:M){
 }
 
 
-thresholds <- matrix(72,M,S)
+
+thresholds <- rbind(c(70,   80,   75,   80,   61),
+  c(78,   70,   80,   80,   60),
+  c(79,   72,   75,   76,   56),
+  c(63,   70,   70,   72,   61),
+  c(70,   63,   65,   68,   60),
+  c(62,   60,   60,   64,   58),
+  c(55,   58,   63,   58,   50),
+  c(58,   56,   55,   55,   40),
+  c(56,   57,   60,   56,   45),
+  c(63,   70,   65,   78,   60),
+  c(68,   70,   68,   69,   57),
+  c(75,   70,   70,   84,   64))
+
+## The thresholds above, for every month and site, have been empirically estimated 
+## by the following lines, which represent the empirical mean residual life plot (mrlplot) 
+## and the Threshold Choice Plot (tcplot)
+
+#i=7 # i varies from 1 to 12 for the months (from December to November)
+#j=1 # j varies from 1 to 5 for the sites (respectively Clare, Cork, Dublin, Kerry and Westmeath)
+
+## initial data selection
+#initial_threshold <- 56
+#events0 <- c(Ireland_monthly[[i]][which(Ireland_monthly[[i]][,j]>initial_threshold),j])
+#events0 
+#events0 <- data.frame(obs= events0, idx=which(Ireland_monthly[[i]][,j]>initial_threshold))
+## threshold selection (try 12)
+#par(mfrow = c(2, 2))
+#mrlplot(events0[,"obs"]) # should be linear after threshold
+#abline(v = initial_threshold, col = "green")
+##diplot(events0) # should be close to 1
+##abline(v = initial_threshold, col = "green")
+#tcplot(events0[, "obs"], which = 1) # should be constant after threshold
+#abline(v = initial_threshold, col = "green")
+#tcplot(events0[, "obs"], which = 2) # should be constant after threshold
+#abline(v = initial_threshold, col = "green")
+#graphics.off()
+#
+#
+#thresholds[i,j] <- initial_threshold
+#lambda[i,j] <- length(Ireland_monthly[[i]][which(Ireland_monthly[[i]][,j]>thresholds[i,j]),j])/length(Ireland_monthly[[i]][,j])
+#
+
+
+## Computing lambda for every choice of threshold. Lambda is the normalized number of
+## peaks over threshold for each month and each site.
+
 lambda <- matrix(NA,M,S)
 thresholds[8,5]<-60
 for(i in 1:M){
@@ -50,28 +101,9 @@ for(i in 1:M){
   }
 }
 
-i=5 #loop manuale (modificare i fino a 5)
-
-# initial data selection
-initial_threshold <- 85
-events0 <- c(spots[[i]][which(spots[[i]]$obs>initial_threshold),])
-events0 <- data.frame(time = events0$time,obs= events0$obs, idx=which(spots[[i]]$obs>initial_threshold))
-# threshold selection (try 12)
-par(mfrow = c(2, 2))
-mrlplot(events0[, "obs"]) # should be linear after threshold
-abline(v = initial_threshold, col = "green")
-diplot(events0) # should be close to 1
-abline(v = initial_threshold, col = "green")
-tcplot(events0[, "obs"], which = 1) # should be constant after threshold
-abline(v = initial_threshold, col = "green")
-tcplot(events0[, "obs"], which = 2) # should be constant after threshold
-abline(v = initial_threshold, col = "green")
-graphics.off()
 
 
-thresholds[i] <- initial_threshold
-lambda[i] <- length(spots[[i]][which(spots[[i]]$obs>initial_threshold),2])/length(spots[[i]]$obs)
-
+## Computing the maximum daily wind gust for each month and each site
 
 maxim <- matrix(NA,M,S)
 
@@ -104,7 +136,10 @@ for(i in 1:M){
 #       }
 #})
 
-FOMC_logit_GPD_joint_density <- nimbleFunction(
+
+## Modelling First Order Markov Chain dependence
+
+FOMC_joint_density <- nimbleFunction(
   run = function(x1=double(0),x2=double(0),threshold=double(0),sigma=double(0),xi=double(0),alpha=double(0), lambda=double(0)){
     returnType(double(0))
     if(x1>threshold & x2>threshold){
@@ -122,6 +157,8 @@ FOMC_logit_GPD_joint_density <- nimbleFunction(
     }
   })
 
+## Generalized Pareto Density:
+
 GPD_density <- nimbleFunction(
   run=function(x=double(0),threshold=double(0),scale=double(0), xi=double(0), lambda=double(0)){
     returnType(double(0))
@@ -137,6 +174,8 @@ GPD_density <- nimbleFunction(
     
   })
 
+## Likelihood model:
+
 dmyModel_lpost <- nimbleFunction(
   run=function(x=double(1),threshold=double(0),scale=double(0),xi=double(0), lambda=double(0), alpha=double(0),log = integer(0, default = 0)){
     returnType(double(0))
@@ -144,7 +183,7 @@ dmyModel_lpost <- nimbleFunction(
     num <-0
     denom <-0
     for(i in 1:(length(x)-1)){
-      num <- log(FOMC_logit_GPD_joint_density(x[i],x[i+1],  threshold,scale,xi, alpha, lambda)) +num
+      num <- log(FOMC_joint_density(x[i],x[i+1],  threshold,scale,xi, alpha, lambda)) +num
       denom <- log(GPD_density(x[i],  threshold,scale,xi, lambda)) + denom
     }
     loglikelihood <- loglikelihood + num - denom
@@ -152,6 +191,8 @@ dmyModel_lpost <- nimbleFunction(
     else return(exp(loglikelihood))
   }
 )
+
+## Modello:
 
 code <- nimbleCode({
   for(j in 1:S){
@@ -187,11 +228,13 @@ code <- nimbleCode({
   }
   a_sigma ~ dnorm(b,c)
   a_xi ~ dnorm(b,c)
- # phi_sigma ~ dgamma(f,f)
- # phi_xi ~ dgamma(f,f)
+#  phi_sigma ~ dgamma(f,f) 
+#  phi_xi ~ dgamma(f,f)
   phi_sigma ~ dunif(d,e)
   phi_xi ~ dunif(f,g)
-
+#  tau_sigma ~ dgamma(f,f)
+#  tau_xi ~ dgamma(f,f)
+  
   tau_sigma ~ dunif(d,e)
   tau_xi ~ dunif(f,g)
   
@@ -204,29 +247,51 @@ pumpData <-list(y_dec = Ireland_monthly[[1]], y_jan = Ireland_monthly[[2]], y_fe
                 y_mar = Ireland_monthly[[4]], y_apr = Ireland_monthly[[5]], y_may = Ireland_monthly[[6]],
                 y_jun = Ireland_monthly[[7]], y_jul = Ireland_monthly[[8]], y_aug = Ireland_monthly[[9]],
                 y_sep = Ireland_monthly[[10]], y_oct = Ireland_monthly[[11]], y_nov = Ireland_monthly[[12]])
+pumpInits <- list()
 
-Hmodel <- nimbleModel(code=code, name ="Hmodel", constants = pumpConsts, data=pumpData)
+## Se si considerano delle gamma per phi_sigma, phi_xi, tau_sigma e tau_xi, 
+## per ottenere conjugacy, decommentare il comando che segue:
 
+#pumpInits <- list(phi_sigma=.1, phi_xi=.1, tau_sigma=.1, tau_xi=.1)
+
+
+## Assemblamento del Modello con Nimble:
+Hmodel <- nimbleModel(code=code, name ="Hmodel", constants = pumpConsts, data=pumpData, inits = pumpInits)
+
+## Configurazione metodi MCMC impiegati
 configureMCMC(Hmodel)
 
+
 mcmc.out <- nimbleMCMC(model = Hmodel,
-                       niter = 10000, nchains = 4, thin = 10, nburnin = 3000, 
+                       niter = 11000, nchains = 3, thin = 1, nburnin = 10000, 
                        monitors = c("a_sigma","a_xi","phi_sigma","phi_xi","tau_sigma",
                                     "tau_xi","gamma_sigma", "gamma_xi", "eps_sigma",
                                     "eps_xi","logsigma","sigma", "xi", "alpha"),
                        summary = TRUE, WAIC = TRUE, setSeed = TRUE, samplesAsCodaMCMC = TRUE)
 
-
-
-coda_chain <- mcmc.out$samples
+## Per allegerire l'analisi, considero solamente samples relativi a sigma, xi e alpha:
+coda_chain2 <- mcmc.out$samples[,-c(1,2,42,43,44,45,46,47,48,49,50,51,52,53,
+                                   54,55,56,57,58,59,60,61,62,63,64,65,
+                                   66,67,68,69,70,71,72,73,74,75,76,77,
+                                   78,79,80,81,82,83,84,85,86,87,88,89,
+                                   90,91,92,93,94,95,96,97,98,99,100,101,
+                                   102,103)]
+coda_chain <- coda_chain2[,-c(6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,
+                              30,31,32,33,34,35,36,37,38,39, 100, 101)]
 summary(coda_chain)
-gelman.diag(coda_chain, confidence = 0.95,  autoburnin = TRUE, multivariate=TRUE)
+gelman.diag(coda_chain, confidence = 0.95, transform = FALSE,  autoburnin = TRUE, multivariate=TRUE)
 x11()
+par(mfrow=c(4,4))
 plot(coda_chain)
 acfplot(coda_chain)
 cumuplot(coda_chain)
 graphics.off()
 
+
+
+acceptance_rate <- 1 - rejectionRate(coda_chain)
+
+acceptance_rate
 geweke.diag(coda_chain)
 geweke.plot(coda_chain, frac1 = 0.1, frac2 = 0.5, nbins = 20)
 
@@ -234,8 +299,13 @@ geweke.plot(coda_chain, frac1 = 0.1, frac2 = 0.5, nbins = 20)
 #CREATING A LIST OF THE MAIN RESULTS OF THE CHAIN
 ###
 
-sigmacb<-mcmc.out$samples$chain4[,"sigma[1, 4]"]
-xicb <- mcmc.out$samples$chain4[,"xi[1, 4]"]
+## Change the first four lines to analyze different sites in different month,
+## in example, we are considering i = 2, which is january and j=4 which is Kerry
+
+sigmacb<-coda_chain$chain2[,"sigma[2, 4]"]
+xicb <- coda_chain$chain2[,"xi[2, 4]"]
+obs <- Ireland_monthly[[2]][,4]
+threshold<-thresholds[2,4]
 
 estim = cbind( sigmacb, xicb)
 ests <- c(mean(estim[, 1]), mean(estim[, 2]))
@@ -243,7 +313,7 @@ ests1 <- c(median(estim[, 1]), median(estim[, 2]))
 ests2 <- array(0, c(2, 2))
 ests2[1, ] <- c(quantile(estim[, 1], 0.025), quantile(estim[, 2], 0.025))
 ests2[2, ] <- c(quantile(estim[, 1], 0.975), quantile(estim[, 2], 0.975))
-results <- list(posterior = estim, data = Ireland_monthly[[1]][,4], postmean = ests, 
+results <- list(posterior = estim, data = obs, postmean = ests, 
                 postmedian = ests1, postCI = ests2, block = 100)
 names(results$postmean) <- c("sigma", "xi")
 names(results$postmedian) <- c( "sigma", "xi")
@@ -280,7 +350,35 @@ ggplot(data = data.frame( level= ta, intensity=pred), mapping = aes(x=level,y=in
   ylab("wind speed (kmh)") + 
   ggtitle("Return level") +
   xlim(0,100)+
-  ylim(80,200) +
+  ylim(80,160) +
   geom_line(aes(y = li), color = "black", linetype = "dotted") +
   geom_line(aes(y = ls), color = "black", linetype = "dotted")
+graphics.off()
 
+
+
+##
+#log predictive density
+##
+
+data <- x$data[x$data > threshold]
+linf = min(data)
+lsup = max(data)
+dat1 = seq(linf, lsup, (lsup - linf)/300)
+n = length(dat1)
+int = length(x$posterior[, 1])
+res = array(0, c(n))
+for (i in 1:n) {
+  for (j in 1:int) {
+    res[i] = res[i] + (1/int) * dgpd(dat1[i], x$posterior[j, 2], threshold, x$posterior[j, 1])
+  }
+}
+dataf <- data.frame(log_pos = data)
+dataf2 <- data.frame(data = dat1, res = res)
+
+ggplot(dataf, aes(x=log_pos)) + 
+  geom_histogram(aes(y = ..density.. ), bins = 20, color = "black", fill = "lightblue") +
+  xlab("data") + 
+  ylab("density") +
+  ggtitle("density") +
+  geom_line(aes(x=data,y = res), dataf2,color = "red") 
