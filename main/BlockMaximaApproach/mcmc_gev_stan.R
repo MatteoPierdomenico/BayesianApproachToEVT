@@ -6,15 +6,11 @@ library(loo)
 library(evir)
 
 # for plots
-library(ggplot2)
-library(tidyr)
-library(dplyr)
-library(purrr)
-library(ggsci)
+library(tidyverse)
 
 #Carico il dataset
 
-Ireland <- read.csv('C:/Users/matte/OneDrive/Documenti/GitHub/Bayesian-Approach-to-EVT/Dataset/Ireland_daily_from1990.csv')
+Ireland <- read.csv('../../Dataset/Ireland_daily_from1990.csv')
 head(Ireland)
 unique(Ireland$spot)
 

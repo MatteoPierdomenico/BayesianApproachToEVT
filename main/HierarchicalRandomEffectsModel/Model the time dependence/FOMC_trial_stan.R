@@ -9,7 +9,7 @@ options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
 
 
-Ireland <- read.csv('C:/Users/matte/OneDrive/Documenti/GitHub/Bayesian-Approach-to-EVT/Dataset/Ireland_daily_from1990.csv')
+Ireland <- read.csv('../../Dataset/Ireland_daily_from1990.csv')
 head(Ireland)
 unique(Ireland$spot)
 

@@ -24,12 +24,12 @@ data
 {
   int<lower = 0> N;       // number of extremes in wind speed
   vector[N] y;     // vector of extremes
-  int mu_mean;
-  int mu_var;
-  int sigma_mean;
-  int sigma_var;
-  int xi_mean; 
-  int xi_var;
+  real mu_mean;
+  real mu_var;
+  real sigma_mean;
+  real sigma_var;
+  real xi_mean; 
+  real xi_var;
 }
 
 transformed data {

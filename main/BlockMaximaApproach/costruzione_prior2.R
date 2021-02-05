@@ -2,40 +2,28 @@ library(evd)
 library(ismev)
 library(ppcc)
 library(evir)
-library(VGAM)
 library(fitdistrplus)
-library(MASS)
-library(vcd)
 library(rstan)
 library(lubridate)
 library(coda)
 library(Rcpp)
 library(loo)
-library(goft)
 library(betafunctions)
-library(ggplot2)
-library(tidyr)
-library(dplyr)
-library(purrr)
-library(ggsci)
-
-# SET THE WORKING DIRECTORY
-
-setwd("C:/Users/david/Desktop/Project/R files")
+library(tidyverse)
 
 # LOAD DATA
 
-ireland <- read.csv("C:/Users/david/Desktop/Project/dataset/Ireland_daily_from1990.csv")
-unique(ireland$city)
+ireland <- read.csv("../../Dataset/Ireland_daily_from1990.csv")
+unique(ireland$spot)
 # "clare"     "cork"      "dublin"    "kerry"     "westmeath"
 
-cities <- (as.vector(unique(ireland$city))) 
+cities <- (as.vector(unique(ireland$spot))) 
 
 # SELECT ONE COUNTY (CLARE in this case)
 
 city_data <- ireland %>%
-  filter(city == cities[1]) %>%
-  select(obs ="hg")
+  filter(spot == cities[1]) %>%
+  select(obs=hg)
 
 M <- dim(city_data)[1]
 
@@ -88,7 +76,6 @@ plot_post %>%
   ggplot(aes(value, fill = param)) + 
   geom_density() + 
   facet_wrap(~param, scales = 'free') + 
-  scale_fill_locuszoom() + 
   theme_minimal() + 
   theme(legend.position="bottom")
 
