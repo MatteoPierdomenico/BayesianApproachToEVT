@@ -1,0 +1,32 @@
+model {
+  for(i in 1:N) {
+    # unif bulk
+    ld_genpar[i] <- ifelse(y[i] >= u, 0.5*dgenpar(y[i], sigma, u, xi), 0.5*exp(logdensity.unif(y[i], t1, u)))
+    
+    # gamma bulk
+    # ld_genpar[i] <- ifelse(y[i] >= u, dgenpar(y[i], sigma, u, xi), exp(logdensity.gamma(y[i], alpha, beta)))
+
+    Ones[i] ~ dbern(ld_genpar[i])
+  }
+  
+  xi ~ dnorm(0, 0.1) T(-sigma/(ymax-u), )
+  u ~ dnorm(t_guess, 1/t_guess_var) T(t1, t2)
+  # u ~ dunif(t1, t2)
+  
+  # discountinuous
+  sigma ~ dgamma(0.001, 0.001)
+  
+  # gamma bulk
+  # alpha ~ dgamma(20*0.001, 0.001)
+  # beta ~ dgamma(0.001, 0.001)
+  
+  # gamma + continuous
+  # u_gammacdf <- 1 - pgamma(u, alpha, beta)
+  # sigma <- u_gammacdf / dgamma(u, alpha, beta)
+  
+  # unif + continuous
+  # sigma <- 1 / (u - t1)
+  
+  #inits# u
+  #monitor# sigma, u, xi
+}
