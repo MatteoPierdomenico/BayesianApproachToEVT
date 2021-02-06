@@ -62,7 +62,7 @@ thresholds <- rbind(c(70,   80,   75,   80,   61),
                     c(75,   70,   70,   84,   64))
 
 ## The thresholds above, for every month and site, have been empirically estimated 
-## by the following lines, which represent the empirical mean residual life plot (mrlplot) 
+## by the following commented lines, which represent the empirical mean residual life plot (mrlplot) 
 ## and the Threshold Choice Plot (tcplot)
 
 #i=7 # i varies from 1 to 12 for the months (from December to November)
@@ -90,11 +90,12 @@ thresholds <- rbind(c(70,   80,   75,   80,   61),
 #lambda[i,j] <- length(Ireland_monthly[[i]][which(Ireland_monthly[[i]][,j]>thresholds[i,j]),j])/length(Ireland_monthly[[i]][,j])
 #
 
+
 ## Computing lambda for every choice of threshold. Lambda is the normalized number of
 ## peaks over threshold for each month and each site.
 
 lambda <- matrix(NA,M,S)
-thresholds[8,5]<-60
+
 for(i in 1:M){
   for(j in 1:S){
     lambda[i,j] <- length(Ireland_monthly[[i]][which(Ireland_monthly[[i]][,j]>thresholds[i,j]),j])/r[i]
