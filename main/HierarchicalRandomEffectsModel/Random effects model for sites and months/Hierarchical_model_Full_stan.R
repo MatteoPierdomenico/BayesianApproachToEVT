@@ -12,7 +12,7 @@ library(loo)
 options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
 
-Ireland <- read.csv('C:/Users/matte/OneDrive/Documenti/GitHub/Bayesian-Approach-to-EVT/Dataset/Ireland_daily_from1990.csv')
+Ireland <- read.csv("../../Dataset/Ireland_daily_from1990.csv")
 head(Ireland)
 unique(Ireland$spot)
 Ireland<-separate(Ireland,"date", c("day","month","y"),sep = "-")
@@ -124,7 +124,7 @@ data_win <- list( S = S, M = M, r = r/5,
                   threshold = thresholds, lambda = lambda,maxim=maxim)
 
 
-fit <- stan(file = "Hierarchical_model_Full.stan", data = data_win, warmup = 400, iter = 600, 
+fit <- stan(file = "Hierarchical_model_Full.stan", data = data_win, warmup = 800, iter = 1000, 
             chains = 2, thin = 1,seed = 19, init_r= 0.01) 
 help(stan)
 is(fit)
@@ -195,9 +195,8 @@ geweke.plot(coda_chain, frac1 = 0.1, frac2 = 0.5, nbins = 20)
 
 ## Change the first four lines to analyze different sites in different month,
 ## in example, we are considering i = 2, which is january and j=4 which is Kerry
-
-sigmacb=sigmacb[,8]
-xicb=xicb[,8]
+sigmacb=sigmacb[,2,4]
+xicb=xicb[,2,4]
 threshold=thresholds[2,4]
 obs <- Ireland_monthly[[2]][,4]
 
