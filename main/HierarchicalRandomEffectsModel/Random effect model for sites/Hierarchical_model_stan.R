@@ -12,7 +12,7 @@ options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
 
 
-Ireland <- read.csv("../../Dataset/Ireland_daily_from1990.csv")
+Ireland <- read.csv("../../../Dataset/Ireland_daily_from1990.csv")
 head(Ireland)
 unique(Ireland$spot)
 

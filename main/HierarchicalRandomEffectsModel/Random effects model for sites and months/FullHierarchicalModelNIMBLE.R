@@ -11,7 +11,7 @@ library(nimble)
 library(tidyr)
 
 
-Ireland <- read.csv("../../Dataset/Ireland_daily_from1990.csv")
+Ireland <- read.csv("../../../Dataset/Ireland_daily_from1990.csv")
 head(Ireland)
 unique(Ireland$spot)
 Ireland<-separate(Ireland,"date", c("day","month","y"),sep = "-")
