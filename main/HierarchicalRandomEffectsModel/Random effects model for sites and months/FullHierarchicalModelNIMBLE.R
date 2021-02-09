@@ -290,8 +290,8 @@ graphics.off()
 
 
 acceptance_rate <- 1 - rejectionRate(coda_chain)
-
 acceptance_rate
+
 geweke.diag(coda_chain)
 geweke.plot(coda_chain, frac1 = 0.1, frac2 = 0.5, nbins = 20)
 
