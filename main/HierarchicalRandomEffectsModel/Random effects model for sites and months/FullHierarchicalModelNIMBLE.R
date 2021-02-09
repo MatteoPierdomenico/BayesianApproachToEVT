@@ -21,8 +21,8 @@ S <- length(unique(Ireland$spot))
 M <- length(unique(Ireland$month))
 
 Ireland_monthly <- list()
-counties <- as.vector(unique(Ireland$spot))
-months <- as.vector(unique(Ireland$month))
+counties <- as.vector(unique(Ireland$spot)) # Vector of all the counties' name
+months <- as.vector(unique(Ireland$month))  # Vector of month
 r <- rep(NA,M)
 
 for(i in 1:M){ 
@@ -45,7 +45,7 @@ for(i in 1:M){
   Ireland_monthly[[i]]<-data
 }
 
-
+# Building the matrix of thresholds
 
 thresholds <- rbind(c(70,   80,   75,   80,   61),
   c(78,   70,   80,   80,   60),
