@@ -118,10 +118,10 @@ data {
 parameters {
   real a_sigma;
   real a_xi;
-  real<lower=0.005,upper=0.020> phi_sigma;
-  real<lower=0.01,upper=0.15> phi_xi;
-  real<lower=0.005,upper=0.020> tau_sigma;
-  real<lower=0.01,upper=0.15> tau_xi;
+  real<lower=0,upper=1> phi_sigma;
+  real<lower=0,upper=1> phi_xi;
+  real<lower=0,upper=1> tau_sigma;
+  real<lower=0,upper=1> tau_xi;
   vector[S] eps_sigma;
   vector[S] eps_xi;
   vector[M] gamma_sigma;
@@ -166,11 +166,11 @@ model{
   a_sigma ~ normal(0,1000); //100 if it doesn't work
   a_xi ~ normal(0,1000);
   
-  phi_sigma ~ uniform(0.005,0.020);
-  phi_xi ~ uniform(0.01,0.15);
+  phi_sigma ~ uniform(0,1);
+  phi_xi ~ uniform(0,1);
   
-  tau_sigma ~ uniform(0.005,0.020);
-  tau_xi ~ uniform(0.01,0.15);
+  tau_sigma ~ uniform(0,1);
+  tau_xi ~ uniform(0,1);
   
   //layer 2 
 

@@ -30,7 +30,7 @@ for(i in 1:m){
 }
 
 
-thresholds <- c(95,95,94,94,85)  
+thresholds <- c(70,70,68,68,63)  
 
 ## The thresholds above, for every site, have been empirically estimated 
 ## by the following commented lines, which represent the empirical mean residual life plot (mrlplot) 
@@ -176,12 +176,12 @@ code <- nimbleCode({
   a_xi ~ dnorm(b,c)
 #  phi_sigma ~ dgamma(f,f)
 #  phi_xi ~ dgamma(f,f)
-  phi_sigma ~ dunif(d,e)
-  phi_xi ~ dunif(f,g)
+  phi_sigma ~ dunif(0,1)
+  phi_xi ~ dunif(0,1)
 })
 
 
-pumpConsts <- list(M= m, N=N,threshold = thresholds, lambda = lambda, b=0, c=10^-2,d=5*10^-3,e=15*10^-3,f=5*10^-2,g=15*10^-2)
+pumpConsts <- list(M= m, N=N,threshold = thresholds, lambda = lambda, b=0, c=10^-2,f=5*10^-2)
 pumpData <-list(y = datamatrix)
 
 
@@ -200,7 +200,6 @@ mcmc.out <- nimbleMCMC(model = Hmodel,
                        niter = 8000, nchains = 3, thin = 10, nburnin = 2000, 
                        monitors = c("a_sigma","a_xi","phi_sigma","phi_xi", "logsigma", "xi", "alpha", "sigma"),
                        summary = TRUE, WAIC = TRUE, samplesAsCodaMCMC  = TRUE, setSeed = TRUE)
-help(nimbleMCMC)
 
 
 coda_chain<- mcmc.out$samples

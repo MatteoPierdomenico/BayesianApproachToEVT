@@ -94,8 +94,8 @@ transformed data{
 parameters {
   real a_sigma;
   real a_xi;
-  real<lower=0.005,upper=0.015> phi_sigma;
-  real<lower=0.05,upper=0.15> phi_xi;
+  real<lower=0,upper=1> phi_sigma;
+  real<lower=0,upper=1> phi_xi;
   vector<lower=0,upper=1>[M] alpha;
   vector[M] logsigma;
   vector[M] xi; 
@@ -121,8 +121,8 @@ model {
   a_sigma ~ normal(b,tau_a);
   a_xi ~ normal(b,tau_a);
 
-  phi_sigma ~ uniform(0.005,0.015);
-  phi_xi ~ uniform(0.05,0.15);
+  phi_sigma ~ uniform(0,1);
+  phi_xi ~ uniform(0,1);
   
   //layer 2 
   

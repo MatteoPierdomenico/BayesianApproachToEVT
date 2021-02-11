@@ -230,19 +230,19 @@ code <- nimbleCode({
   a_xi ~ dnorm(b,c)
 #  phi_sigma ~ dgamma(f,f) 
 #  phi_xi ~ dgamma(f,f)
-  phi_sigma ~ dunif(d,e)
-  phi_xi ~ dunif(f,g)
+  phi_sigma ~ dunif(0,1)
+  phi_xi ~ dunif(0,1)
 #  tau_sigma ~ dgamma(f,f)
 #  tau_xi ~ dgamma(f,f)
   
-  tau_sigma ~ dunif(d,e)
-  tau_xi ~ dunif(f,g)
+  tau_sigma ~ dunif(0,1)
+  tau_xi ~ dunif(0,1)
   
 })
 
 
 
-pumpConsts <- list(M = M, S = S, threshold = thresholds, lambda = lambda, maxim = maxim, len = r/5, b=0, c=10^-3,d=5*10^-3,e=20*10^-3,f=1*10^-2,g=15*10^-2)
+pumpConsts <- list(M = M, S = S, threshold = thresholds, lambda = lambda, maxim = maxim, len = r/5, b=0, c=10^-3,f=10^-2)
 pumpData <-list(y_dec = Ireland_monthly[[1]], y_jan = Ireland_monthly[[2]], y_feb = Ireland_monthly[[3]],
                 y_mar = Ireland_monthly[[4]], y_apr = Ireland_monthly[[5]], y_may = Ireland_monthly[[6]],
                 y_jun = Ireland_monthly[[7]], y_jul = Ireland_monthly[[8]], y_aug = Ireland_monthly[[9]],
@@ -263,7 +263,7 @@ configureMCMC(Hmodel)
 
 
 mcmc.out <- nimbleMCMC(model = Hmodel,
-                       niter = 11000, nchains = 3, thin = 1, nburnin = 10000, 
+                       niter = 15000, nchains = 3, thin = 10, nburnin = 10000, 
                        monitors = c("a_sigma","a_xi","phi_sigma","phi_xi","tau_sigma",
                                     "tau_xi","gamma_sigma", "gamma_xi", "eps_sigma",
                                     "eps_xi","logsigma","sigma", "xi", "alpha"),
@@ -281,7 +281,6 @@ coda_chain <- coda_chain2[,-c(6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,
 summary(coda_chain)
 gelman.diag(coda_chain, confidence = 0.95, transform = FALSE,  autoburnin = TRUE, multivariate=TRUE)
 x11()
-par(mfrow=c(4,4))
 plot(coda_chain)
 acfplot(coda_chain)
 cumuplot(coda_chain)

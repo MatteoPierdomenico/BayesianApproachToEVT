@@ -39,7 +39,7 @@ graphics.off()
 thresholds <- rep(NA,m)
 lambda <- rep(NA,m)
 
-thresholds <- c(95,95,94,94,85)  #sono state scelte empiricamente
+thresholds <- c(70,70,68,68,63)  #sono state scelte empiricamente
 
 ## The thresholds above, for every site, have been empirically estimated 
 ## by the following commented lines, which represent the empirical mean residual life plot (mrlplot) 
