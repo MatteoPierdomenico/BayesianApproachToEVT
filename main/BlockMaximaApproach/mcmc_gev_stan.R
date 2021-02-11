@@ -10,13 +10,13 @@ library(tidyverse)
 
 #Carico il dataset
 
-Ireland <- read.csv('../../Dataset/Ireland_daily_from1990.csv')
+Ireland <- read_csv('../../Dataset/Ireland_daily_from1990.csv')
 head(Ireland)
 unique(Ireland$spot)
 
 # fix a location
 county <- Ireland %>%
-  filter(spot == "clare") %>%                    #Here is where to change the county to be analyzed
+  filter(spot == "kerry") %>%                    #Here is where to change the county to be analyzed
   select(time = year, obs = `hg`)
 
 summary(county$obs) # note 3rd Qu. vs Max.
