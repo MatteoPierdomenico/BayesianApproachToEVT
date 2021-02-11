@@ -30,12 +30,12 @@ ggplot(county, aes(x=time, y=obs)) +
 
 #BlockMaximaApproach
 length_block <- 14     #Approximately, 14 days: two weeks
-N <- round(length(county$time)/length_block)
+N <- trunc(length(county$time)/length_block)
 Extremes <- rep(NaN, N+1)
 for(i in 1:N){
   Extremes[i] <- max(county$obs[(length_block*(i-1)):(length_block*(i))])
 }
-Extremes[N+1]<-max(county$obs[(30*N):length(county$obs)])
+Extremes[N+1]<-max(county$obs[(length_block*N):length(county$obs)])
 
 
 y <- Extremes
