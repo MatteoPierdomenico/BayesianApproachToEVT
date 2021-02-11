@@ -29,7 +29,7 @@ ggplot(county, aes(x=time, y=obs)) +
 #MCMC GEV with STAN: vento estremo
 
 #BlockMaximaApproach
-length_block <- 30     #Approximately, 30 is a month
+length_block <- 14     #Approximately, 14 days: two weeks
 N <- round(length(county$time)/length_block)
 Extremes <- rep(NaN, N+1)
 for(i in 1:N){
