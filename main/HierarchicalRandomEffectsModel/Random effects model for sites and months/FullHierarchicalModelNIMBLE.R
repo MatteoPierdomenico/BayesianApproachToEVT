@@ -269,17 +269,9 @@ mcmc.out <- nimbleMCMC(model = Hmodel,
                                     "eps_xi","logsigma","sigma", "xi", "alpha"),
                        summary = TRUE, WAIC = TRUE, setSeed = TRUE, samplesAsCodaMCMC = TRUE)
 
-## Per allegerire l'analisi, considero solamente samples relativi a sigma, xi e alpha:
-coda_chain2 <- mcmc.out$samples[,-c(1,2,42,43,44,45,46,47,48,49,50,51,52,53,
-                                   54,55,56,57,58,59,60,61,62,63,64,65,
-                                   66,67,68,69,70,71,72,73,74,75,76,77,
-                                   78,79,80,81,82,83,84,85,86,87,88,89,
-                                   90,91,92,93,94,95,96,97,98,99,100,101,
-                                   102,103)]
-coda_chain <- coda_chain2[,-c(6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,
-                              30,31,32,33,34,35,36,37,38,39, 100, 101)]
+coda_chain<-mcmc.out$samples
+
 summary(coda_chain)
-gelman.diag(coda_chain, confidence = 0.95, transform = FALSE,  autoburnin = TRUE, multivariate=TRUE)
 x11()
 plot(coda_chain)
 acfplot(coda_chain)
@@ -288,23 +280,37 @@ graphics.off()
 
 
 
-acceptance_rate <- 1 - rejectionRate(coda_chain)
+
+acceptance_rate <- 1 - rejectionRate(coda_chain_)
 acceptance_rate
 
 geweke.diag(coda_chain)
 geweke.plot(coda_chain, frac1 = 0.1, frac2 = 0.5, nbins = 20)
+
+#Diagnostic in the article, considering just 2 counties and 2 months
+coda_chain_for_report<-mcmc.out$samples[,c("alpha[4]","alpha[5]", "sigma[1, 4]","sigma[8, 4]","sigma[1, 5]","sigma[8, 5]",
+                             "xi[1, 4]","xi[8, 4]","xi[1, 5]","xi[8, 5]")]
+summary(coda_chain_for_report)
+gelman.diag(coda_chain_for_report)
+plot(coda_chain_for_report[,-c(1,2)])
+plot(coda_chain_for_report[,c(1,2)])
+acfplot(coda_chain_for_report)
+cumuplot(coda_chain_for_report)
+geweke.diag(coda_chain)
+geweke.plot(coda_chain, frac1 = 0.1, frac2 = 0.5, nbins = 20)
+
 
 ###
 #CREATING A LIST OF THE MAIN RESULTS OF THE CHAIN
 ###
 
 ## Change the first four lines to analyze different sites in different month,
-## in example, we are considering i = 2, which is january and j=4 which is Kerry
+## in example, we are considering i = 1, which is December and j=4 which is Kerry
 
-sigmacb<-coda_chain$chain2[,"sigma[2, 4]"]
-xicb <- coda_chain$chain2[,"xi[2, 4]"]
-obs <- Ireland_monthly[[2]][,4]
-threshold<-thresholds[2,4]
+sigmacb<-mcmc.out$samples$chain2[,"sigma[1, 4]"]
+xicb <- mcmc.out$samples$chain2[,"xi[1, 4]"]
+obs <- Ireland_monthly[[1]][,4]
+threshold<-thresholds[1,4]
 
 estim = cbind( sigmacb, xicb)
 ests <- c(mean(estim[, 1]), mean(estim[, 2]))
@@ -326,10 +332,9 @@ class(results) <- "gpdp"
 
 
 t <- 2  #start ret level
-k <- 100   #end ret level
+k <- 1000   #end ret level
 x <- results
-
-sampl <- qgpd(1 - 1/t, x$posterior[, 2], thresholds[1], x$posterior[, 1])
+sampl <- evir::qgpd(1 - 1/t, x$posterior[, 2], threshold, x$posterior[, 1])
 res <- quantile(sampl, 0.5)
 ta <- seq(1, k, 1)
 n <- length(ta)
@@ -337,7 +342,7 @@ li <- array(0, c(n))
 ls <- array(0, c(n))
 pred <- array(0, c(n))
 for (s in 1:n) {
-  sampl <- qgpd(1 - 1/s, x$posterior[, 2], thresholds[1], x$posterior[, 1])
+  sampl <- evir::qgpd(1 - 1/s, x$posterior[, 2], threshold, x$posterior[, 1])
   li[s] <- quantile(sampl, 0.025)
   ls[s] <- quantile(sampl, 0.975)
   pred[s] <- quantile(sampl, 0.5)
@@ -347,11 +352,12 @@ ggplot(data = data.frame( level= ta, intensity=pred), mapping = aes(x=level,y=in
   geom_line( color = "red") +
   xlab("level") + 
   ylab("wind speed (kmh)") + 
-  ggtitle("Return level") +
-  xlim(0,100)+
-  ylim(80,160) +
-  geom_line(aes(y = li), color = "black", linetype = "dotted") +
-  geom_line(aes(y = ls), color = "black", linetype = "dotted")
+  ggtitle("Return level in Kerry, December") +
+  xlim(0,1000)+
+  ylim(50,240) +
+  #geom_line(aes(y = li), color = "black", linetype = "dotted") +
+  #geom_line(aes(y = ls), color = "black", linetype = "dotted") +
+  geom_ribbon(aes(ymin=li, ymax=ls), fill="red", alpha=0.2) 
 graphics.off()
 
 
@@ -369,7 +375,7 @@ int = length(x$posterior[, 1])
 res = array(0, c(n))
 for (i in 1:n) {
   for (j in 1:int) {
-    res[i] = res[i] + (1/int) * dgpd(dat1[i], x$posterior[j, 2], threshold, x$posterior[j, 1])
+    res[i] = res[i] + (1/int) * evir::dgpd(dat1[i], x$posterior[j, 2], threshold, x$posterior[j, 1])
   }
 }
 dataf <- data.frame(log_pos = data)
@@ -379,5 +385,5 @@ ggplot(dataf, aes(x=log_pos)) +
   geom_histogram(aes(y = ..density.. ), bins = 20, color = "black", fill = "lightblue") +
   xlab("data") + 
   ylab("density") +
-  ggtitle("density") +
+  ggtitle("Pointwise predictive density for Kerry, December") +
   geom_line(aes(x=data,y = res), dataf2,color = "red") 

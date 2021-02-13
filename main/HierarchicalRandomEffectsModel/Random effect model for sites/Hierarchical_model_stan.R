@@ -195,7 +195,7 @@ t <- 2  #start ret level
 k <- 100   #end ret level
 x <- results
 
-sampl <- qgpd(1 - 1/t, x$posterior[, 2], thresholds[1], x$posterior[, 1])
+sampl <- qgpd(1 - 1/t, x$posterior[, 2], threshold, x$posterior[, 1])
 res <- quantile(sampl, 0.5)
 ta <- seq(1, k, 1)
 n <- length(ta)
@@ -203,7 +203,7 @@ li <- array(0, c(n))
 ls <- array(0, c(n))
 pred <- array(0, c(n))
 for (s in 1:n) {
-  sampl <- qgpd(1 - 1/s, x$posterior[, 2], thresholds[1], x$posterior[, 1])
+  sampl <- qgpd(1 - 1/s, x$posterior[, 2], threshold, x$posterior[, 1])
   li[s] <- quantile(sampl, 0.025)
   ls[s] <- quantile(sampl, 0.975)
   pred[s] <- quantile(sampl, 0.5)
