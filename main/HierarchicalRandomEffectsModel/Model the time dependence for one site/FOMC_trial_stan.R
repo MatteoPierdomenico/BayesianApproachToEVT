@@ -1,3 +1,7 @@
+# GPD with time dependence modelled by the logistic bivariate model. It has been written
+# as a trial to move into more complicated models and to see if the logistic bivariate model works
+
+
 library(rstan)
 library(coda)
 library(tidyverse)
@@ -31,47 +35,55 @@ graphics.off()
 
 
 
-thresholds <- rep(NA,m)
+thresholds <- c(70,70,68,68,63)
 lambda <- rep(NA,m)
 
 
 
-i=1#loop manuale (modificare i fino a 5)
+#i=1#loop manuale (modificare i fino a 5)
+#
+## initial data selection
+#initial_threshold <- 90
+#events0 <- c(spots[[i]][which(spots[[i]]$obs>initial_threshold),])
+#events0 <- data.frame(time = events0$time,obs= events0$obs, idx=which(spots[[i]]$obs>initial_threshold))
+## threshold selection (try 12)
+#par(mfrow = c(2, 2))
+#mrlplot(events0[, "obs"]) # should be linear after threshold
+#abline(v = initial_threshold, col = "green")
+#diplot(events0) # should be close to 1
+#abline(v = initial_threshold, col = "green")
+#tcplot(events0[, "obs"], which = 1) # should be constant after threshold
+#abline(v = initial_threshold, col = "green")
+#tcplot(events0[, "obs"], which = 2) # should be constant after threshold
+#abline(v = initial_threshold, col = "green")
+#graphics.off()
+#
+#thresholds[i] <- initial_threshold
+#lambda[i] <- length(spots[[i]][which(spots[[i]]$obs>initial_threshold),2])/length(spots[[i]]$obs)
 
-# initial data selection
-initial_threshold <- 90
-events0 <- c(spots[[i]][which(spots[[i]]$obs>initial_threshold),])
-events0 <- data.frame(time = events0$time,obs= events0$obs, idx=which(spots[[i]]$obs>initial_threshold))
-# threshold selection (try 12)
-par(mfrow = c(2, 2))
-mrlplot(events0[, "obs"]) # should be linear after threshold
-abline(v = initial_threshold, col = "green")
-diplot(events0) # should be close to 1
-abline(v = initial_threshold, col = "green")
-tcplot(events0[, "obs"], which = 1) # should be constant after threshold
-abline(v = initial_threshold, col = "green")
-tcplot(events0[, "obs"], which = 2) # should be constant after threshold
-abline(v = initial_threshold, col = "green")
-graphics.off()
+#tim.cond <- 3/365
+#
+## cluster to avoid short range temporal dependence
+#for(i in 1:m){
+#spots[[i]] <- clust(spots[[i]], u = thresholds[i], tim.cond = tim.cond, 
+#                 clust.max = TRUE, plot = TRUE)
+#}
+#
 
-thresholds[i] <- initial_threshold
-lambda[i] <- length(spots[[i]][which(spots[[i]]$obs>initial_threshold),2])/length(spots[[i]]$obs)
 
-tim.cond <- 3/365
-
-# cluster to avoid short range temporal dependence
 for(i in 1:m){
-spots[[i]] <- clust(spots[[i]], u = thresholds[i], tim.cond = tim.cond, 
-                 clust.max = TRUE, plot = TRUE)
+  lambda[i] <- length(spots[[i]][which(spots[[i]]$obs>thresholds[i]),2])/length(spots[[i]]$obs)
 }
 
+
+
 #MCMC
-y <- data[[1]]
+y <- data[[1]]   # analysis for clare
 N <- length(y)
 b <- 0
 c <- 10^-3
-g<-f<-10^-2
-data_win <- list( N = N, y = y, threshold = thresholds[1], lambda=lambda[1],b=b,c=c,f=f,g=g)
+
+data_win <- list( N = N, y = y, threshold = thresholds[1], lambda=lambda[1],b=b,c=c)
 fit <- stan(file = "First_order_Markov_chain_dependence.stan", data = data_win, warmup = 1000, iter = 4000, 
             chains = 2, thin = 10,seed = 109) 
 is(fit)
@@ -104,20 +116,6 @@ plot(xicb)
 plot(alphacb)
 plot(lp)
 
-#PLOT della stima dei parametri
-
-plot_post <- fit %>% 
-  rstan::extract(c("sigma", "xi")) %>% 
-  as_tibble() %>% 
-  map_df(as_data_frame, .id = 'param')
-
-plot_post %>% 
-  ggplot(aes(value, fill = param)) + 
-  geom_density() + 
-  facet_wrap(~param, scales = 'free') + 
-  scale_fill_locuszoom() + 
-  theme_minimal() + 
-  theme(legend.position="bottom")
 
 pairs(fit, pars = c( 'sigma', 'xi', 'alpha'), condition = 0.5)
 
@@ -205,7 +203,7 @@ for (i in 1:n) {
                                                           2], thresholds[1], x$posterior[j, 1])
   }
 }
-dataf <- data.frame(log_pos = dat)
+dataf <- data.frame(log_pos = data)
 dataf2 <- data.frame(data = dat1, res = res)
 
 ggplot(dataf, aes(x=log_pos)) + 
@@ -216,13 +214,4 @@ ggplot(dataf, aes(x=log_pos)) +
   geom_line(aes(x=data,y = res), dataf2,color = "red") 
 
 
-
-###
-#WAIC criteria to choose the model
-###
-
-
-loglik <- extract_log_lik(fit, parameter_name = "log_lik", merge_chains = TRUE)
-
-waic(loglik)
 

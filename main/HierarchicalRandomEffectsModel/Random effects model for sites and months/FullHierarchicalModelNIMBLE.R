@@ -94,7 +94,6 @@ thresholds <- rbind(c(70,   80,   75,   80,   61),
 ## peaks over threshold for each month and each site.
 
 lambda <- matrix(NA,M,S)
-thresholds[8,5]<-60
 for(i in 1:M){
   for(j in 1:S){
     lambda[i,j] <- length(Ireland_monthly[[i]][which(Ireland_monthly[[i]][,j]>thresholds[i,j]),j])/r[i]
@@ -281,7 +280,7 @@ graphics.off()
 
 
 
-acceptance_rate <- 1 - rejectionRate(coda_chain_)
+acceptance_rate <- 1 - rejectionRate(coda_chain)
 acceptance_rate
 
 geweke.diag(coda_chain)
