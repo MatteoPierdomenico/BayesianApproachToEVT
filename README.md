@@ -13,6 +13,7 @@ The first part of the work focuses on simplistic inferential procedures, investi
 The data analyzed are collected in a .csv file, in the folder "Dataset", together with a little description of the source in the .txt file.
 
 Codes are organized in the main folder in the following way: 
+
 the BlockMaximaApproach folder, where there are two .R files that refers to the two .stan files, one of them is a simple analysis with non-informative priors adopting the GEV model, the other considers the extrapolation, directly from a portion of data, and use of "informative" priors for the GEV model;
 
 the PeaksOverThresholdApproach folder, where there are a .R file together with a .jags file that correspond to the Extreme Value analysis of our data through a Generalized Pareto distribution model, in which also the threshold is an unknown parameter of the model;
