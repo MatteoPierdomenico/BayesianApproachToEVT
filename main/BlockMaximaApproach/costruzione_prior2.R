@@ -1,14 +1,11 @@
-library(evd)
-library(ismev)
-library(ppcc)
-library(evir)
-library(fitdistrplus)
-library(rstan)
 library(lubridate)
+library(rstan)
 library(coda)
 library(Rcpp)
 library(loo)
-library(betafunctions)
+library(evir)
+
+# for plots
 library(tidyverse)
 
 # LOAD DATA
@@ -22,7 +19,7 @@ cities <- (as.vector(unique(ireland$spot)))
 # SELECT ONE COUNTY (CLARE in this case)
 
 city_data <- ireland %>%
-  filter(spot == cities[1]) %>%
+  filter(spot == cities[4]) %>%        # 4 corresponds to Kerry
   select(obs=hg)
 
 M <- dim(city_data)[1]
@@ -128,14 +125,6 @@ var_sigma <- var(sigmacb)
 # XI #
 mean_xi <- mean(xicb)  
 var_xi <- var(xicb)    
-
-###
-#WAIC criteria to choose the model
-###
-
-loglik <- extract_log_lik(fit, parameter_name = "log_lik", merge_chains = TRUE)
-
-waic(loglik)
 
 #####################################################################
 # Once we have estimated the priors using the first half of our data,
