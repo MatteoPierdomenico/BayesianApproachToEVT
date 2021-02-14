@@ -10,7 +10,7 @@ clust <- makeCluster(detectCores())
 
 # load world data
 spot_data_0 <- read_csv("../../Dataset/Ireland_daily_from1990.csv") %>%
-  filter(spot == "clare") %>%                    #Here is where to change the county to be analyzed
+  filter(spot == "kerry") %>%                    #Here is where to change the county to be analyzed
   select(time = year, obs = `hg`)
 
 ggplot(spot_data_0, aes(x=time, y=obs)) +
@@ -19,7 +19,7 @@ ggplot(spot_data_0, aes(x=time, y=obs)) +
 acf(spot_data_0$obs)
 
 # pick a very low threshold and decluster
-t1 <- 50
+t1 <- 30
 spot_data_1 <- as_tibble(clust(as.data.frame(spot_data_0), 
                              u = t1, 
                              tim.cond = 3/365, 
@@ -40,7 +40,7 @@ ggplot(spot_data, aes(x=time, y=obs)) +
   geom_point()
 
 # select a threshold
-threshold <- 96
+threshold <- 70
 par(mfrow = c(2, 2))
 mrlplot(spot_data$obs) # should be linear after threshold
 abline(v = threshold, col="green")
@@ -196,7 +196,7 @@ data.frame(ta,
   #geom_line(aes(x=ta, y=pred.mle), color="black", alpha=0.5) +
   #geom_ribbon(aes(ymin=li.mle, ymax=ls.mle), fill="black", alpha=0.1) +
   #scale_x_continuous(trans="log", limits=c(1,k)) +
-  ylim(80,205) +
+  ylim(80,210) +
   xlab("return period (years)") + 
   ylab("return level (wind speed (kmh))") + 
   ggtitle("Return level")
