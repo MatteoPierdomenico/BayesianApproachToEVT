@@ -12,7 +12,7 @@ The first part of the work focuses on simplistic inferential procedures, investi
 
 * ***GEV*** **model**: 
 
-<p align="center"><img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/GEV_model.png" width="60%" height=60%">
+<p align="center"><img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/GEV_model.png" width="65%" height=65%">
 
 * ***GPD*** **model**: 
 <p align="center"><img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/GPD_model.png" width="60%" height="60%">
