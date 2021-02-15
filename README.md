@@ -8,7 +8,6 @@ In this work is developed an extreme value analysis for maximum daily wind gusts
 The first part of the work focuses on simplistic inferential procedures, investigating both the two main approaches for extreme data selection and analysis, i.e. the BlockMaximaApproach and the PeaksOverThresholdApproach, only for specific sites. On the other hand, in the second part, a hierarchical random effects model is built in order to better incorporate in the analysis the structural complexity of the data. In particular, it attempts to identify site and seasonal effects for the marginal densities of daily maximum wind gusts, as well as the serial dependence at each location through a first order Markov chain model. 
 
 
-<img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/Data.png" width="70%" height="70%">
 ## Models
 
 * ***GEV*** **model**: 
@@ -23,12 +22,12 @@ The first part of the work focuses on simplistic inferential procedures, investi
 
 <p align="center"><img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/Hmodel.png" width="50%" height="50%">
 
+To better understand the mathematical analysis inherent to those models, see the *FabbrucciPierdomenicoRandazzo_report.pdf* file in the *Report* folder.
+
 
 ## File system
 
 The data analyzed are collected in the **Ireland_daily_from1990.csv** file, in the folder *Dataset*, together with a little description of the source in the **Dataset.txt** file.
-
-In the *Report* folder is contained the *FabbrucciPierdomenicoRandazzo_report.pdf*, containing all the analysis of our work.
 
 Codes are organized in the main folder in the following way: 
 
@@ -48,3 +47,21 @@ Codes are organized in the main folder in the following way:
   * the other 2 subfolders correspond to preliminary steps in order to reach the more complex and complete hierarchical model for sites and months effects. In particular:
     * in the *Model the time dependence for one site* subfolder, it is implemented a preliminary simple GPD model for single sites observations, as the one in the *PeaksOverThresholdApproach* folder, with the serial dependence modelled by the first order Markov chain; 
     * in the *Random effects model for site* folder, there are both the STAN and NIMBLE implementation of a slightly more complex model, the last preliminary step, which analyzes the whole dataset, considering just the random effect for the site variation.
+    
+    
+    
+## Some results:
+* Parameters' trace plots of the **GEV** model for the counties *Kerry* and *Westmeath* respectively:
+<img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/traces.png" width="50%" height="50%">
+
+* Return levels for *Kerry* and *Westmeath* from the **GPD** model analysis:
+<img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/Ret_lev_GPD2.png" width="50%" height="50%">
+
+* Parameters trace plots of the **hierarchical random effects** model for the counties *Kerry* and *Westmeath* in *July* and *December*:
+<img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/Trace_Plots_HM.png" width="50%" height="50%">
+
+* Return levels for *Kerry* and *Westmeath* in *December* and *July* from the **hierarchical random effects** model:
+<img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/Return_levels_HM.png" width="50%" height="50%">
+
+
+
