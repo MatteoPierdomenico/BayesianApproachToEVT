@@ -15,8 +15,9 @@ model {
   
   # discountinuous
   # sigma ~ dnorm(0, 0.09) T(0.1, )
-  log_sigma ~ dnorm(0, 0.1)
+  
   sigma <- exp(log_sigma)
+  log_sigma ~ dnorm(0, 0.1)
   
   # gamma bulk
   # alpha ~ dgamma(20*0.001, 0.001)
