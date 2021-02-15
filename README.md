@@ -28,7 +28,5 @@ Codes are organized in the main folder in the following way:
       **Hierarchical_Model_Full.stan**  file;  
   
   * the other 2 subfolders correspond to preliminary steps in order to reach the more complex and complete hierarchical model for sites and months effects. In particular:
-    * in the *Model the time dependence for one site* subfolder, it is implemented a preliminary simple GPD model for single sites observations, as the one in the         
-      *PeaksOverThresholdApproach* folder, with the serial dependence modelled by the first order Markov chain; 
-    * in the *Random effects model for site* folder, there are both the STAN and NIMBLE implementation of a slightly more complex model, the last preliminary step, which  ù
-      analyzes the whole dataset, considering just the random effect for the site variation.
+    * in the *Model the time dependence for one site* subfolder, it is implemented a preliminary simple GPD model for single sites observations, as the one in the *PeaksOverThresholdApproach* folder, with the serial dependence modelled by the first order Markov chain; 
+    * in the *Random effects model for site* folder, there are both the STAN and NIMBLE implementation of a slightly more complex model, the last preliminary step, which analyzes the whole dataset, considering just the random effect for the site variation.
