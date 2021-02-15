@@ -8,23 +8,35 @@ In this work is developed an extreme value analysis for maximum daily wind gusts
 The first part of the work focuses on simplistic inferential procedures, investigating both the two main approaches for extreme data selection and analysis, i.e. the BlockMaximaApproach and the PeaksOverThresholdApproach, only for specific sites. On the other hand, in the second part, a hierarchical random effects model is built in order to better incorporate in the analysis the structural complexity of the data. In particular, it attempts to identify site and seasonal effects for the marginal densities of daily maximum wind gusts, as well as the serial dependence at each location through a first order Markov chain model. 
 
 ### Data
-![alt text]("https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/Data.png"?raw=true)
+![alt text]("https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/Data.png")
+[url=https://postimg.cc/zHjzZy9h][img]https://i.postimg.cc/zHjzZy9h/Data.png[/img][/url]
 
 ## Models
 
 * ***GEV*** **model**: 
 
-![alt text]("https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/GEV_model.png"?raw=true)
+![alt text]("https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/GEV_model.png")
+
+[url=https://postimg.cc/9zjyhs6X][img]https://i.postimg.cc/9zjyhs6X/GEV-model.png[/img][/url]
 
 * ***GPD*** **model**: 
 
-![alt text]("https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/GPD_model.png"?raw=true)
+![alt text]("https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/GPD_model.png")
+
+[url=https://postimg.cc/V5BnLDwq][img]https://i.postimg.cc/V5BnLDwq/GPD-model.png[/img][/url]
 
 * ***Hierarchical random effects*** **model**: 
 
-![alt text]("https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/Likelihood.png"?raw=true)
+![alt text]("https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/Likelihood.png")
 
-![alt text]("https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/Hmodel.png"?raw=true)
+![alt text]("https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/Hmodel.png")
+
+
+[url=https://postimg.cc/HV6MbnVj][img]https://i.postimg.cc/HV6MbnVj/Likelihood.png[/img][/url]
+
+[url=https://postimg.cc/Mv6RcVZh][img]https://i.postimg.cc/Mv6RcVZh/Hmodel.png[/img][/url]
+
+
 
 
 ## File system
