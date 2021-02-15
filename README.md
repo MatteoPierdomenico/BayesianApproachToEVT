@@ -14,17 +14,17 @@ The first part of the work focuses on simplistic inferential procedures, investi
 
 * ***GEV*** **model**: 
 
-![alt text](https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/GEV_model.png)
+![alt text](https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/GEV_model.png)
 
 * ***GPD*** **model**: 
 
-![alt text](https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/GPD_model.png)
+![alt text](https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/GPD_model.png)
 
 * ***Hierarchical random effects*** **model**: 
 
-![alt text](https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/Likelihood.png)
+![alt text](https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/Likelihood.png)
 
-![alt text](https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/Hmodel.png)
+![alt text](https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/Hmodel.png)
 
 
 
