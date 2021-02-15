@@ -8,7 +8,7 @@ In this work is developed an extreme value analysis for maximum daily wind gusts
 The first part of the work focuses on simplistic inferential procedures, investigating both the two main approaches for extreme data selection and analysis, i.e. the BlockMaximaApproach and the PeaksOverThresholdApproach, only for specific sites. On the other hand, in the second part, a hierarchical random effects model is built in order to better incorporate in the analysis the structural complexity of the data. In particular, it attempts to identify site and seasonal effects for the marginal densities of daily maximum wind gusts, as well as the serial dependence at each location through a first order Markov chain model. 
 
 ### Data
-![alt text]("https://raw.githubusercontent.com/MatteoPierdomenico/BayesianApproachToEVT/Report/Immagini/Data.png")
+![alt text]("https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/Data.png")
 
 ## Models
 
