@@ -10,7 +10,7 @@ clust <- makeCluster(detectCores())
 
 # load world data
 spot_data_0 <- read_csv("../../Dataset/Ireland_daily_from1990.csv") %>%
-  filter(spot == "kerry") %>%                    #Here is where to change the county to be analyzed
+  filter(spot == "westmeath") %>%                    #Here is where to change the county to be analyzed
   select(time = year, obs = `hg`)
 
 ggplot(spot_data_0, aes(x=time, y=obs)) +
@@ -19,7 +19,7 @@ ggplot(spot_data_0, aes(x=time, y=obs)) +
 acf(spot_data_0$obs)
 
 # pick a very low threshold and decluster
-t1 <- 30
+t1 <- 40
 spot_data_1 <- as_tibble(clust(as.data.frame(spot_data_0), 
                              u = t1, 
                              tim.cond = 3/365, 
@@ -40,7 +40,7 @@ ggplot(spot_data, aes(x=time, y=obs)) +
   geom_point()
 
 # select a threshold
-threshold <- 70
+threshold <- 55
 par(mfrow = c(2, 2))
 mrlplot(spot_data$obs) # should be linear after threshold
 abline(v = threshold, col="green")
@@ -249,7 +249,7 @@ ggplot(dataf, aes(x=pos)) +
   xlab("data") + 
   ylab("density") +
   ggtitle("density") +
-  #xlim(c(30, max(dat))) +
+  #xlim(c(40, max(dat))) +
   geom_line(aes(x=data,y = res), dataf2,color = "red") 
 
 
