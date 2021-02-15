@@ -52,13 +52,13 @@ Codes are organized in the main folder in the following way:
     
 ## Some results:
 * Parameters' trace plots of the **GEV** model for the counties *Kerry* and *Westmeath* respectively:
-<img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/traces.png" width="50%" height="50%">
+<img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/traces.png" width="70%" height="70%">
 
 * Return levels for *Kerry* and *Westmeath* from the **GPD** model analysis:
 <img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/Ret_lev_GPD2.png" width="50%" height="50%">
 
 * Parameters trace plots of the **hierarchical random effects** model for the counties *Kerry* and *Westmeath* in *July* and *December*:
-<img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/Trace_Plots_HM.png" width="50%" height="50%">
+<img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/Trace_Plots_HM.png" width="70%" height="70%">
 
 * Return levels for *Kerry* and *Westmeath* in *December* and *July* from the **hierarchical random effects** model:
 <img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/Return_levels_HM.png" width="50%" height="50%">
