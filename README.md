@@ -7,11 +7,18 @@ Our work aims to study Extreme daily wind gust in 5 different counties of Irelan
 In this work is developed an extreme value analysis for maximum daily wind gusts in a Bayesian framework.
 The first part of the work focuses on simplistic inferential procedures, investigating both the two main approaches for extreme data selection and analysis, i.e. the BlockMaximaApproach and the PeaksOverThresholdApproach, only for specific sites. On the other hand, in the second part, a hierarchical random effects model is built in order to better incorporate in the analysis the structural complexity of the data. In particular, it attempts to identify site and seasonal effects for the marginal densities of daily maximum wind gusts, as well as the serial dependence at each location through a first order Markov chain model. 
 
+### Data
+<img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/Data.png" width="50%" height="50%">
 ## Models
-* ***GEV*** **model**:
-'''html
-<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{equation*}&space;x_{s,\cdot}^{block-maxima}|\mu,\sigma,\xi&space;\sim&space;\mathcal{GEV}(\mu,\sigma,\xi),&space;\end{equation*}&space;\\&space;\begin{equation*}&space;\mu&space;\sim&space;\mathcal{N}\textit{(0,&space;100)},&space;\end{equation*}\\&space;\begin{equation*}&space;\sigma&space;\sim&space;\mathcal{N}\textit{(0,&space;100)},&space;\end{equation*}\\&space;\begin{equation*}&space;\xi&space;\sim&space;\mathcal{N}\textit{(0,&space;10)},&space;\end{equation*}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{equation*}&space;x_{s,\cdot}^{block-maxima}|\mu,\sigma,\xi&space;\sim&space;\mathcal{GEV}(\mu,\sigma,\xi),&space;\end{equation*}&space;\\&space;\begin{equation*}&space;\mu&space;\sim&space;\mathcal{N}\textit{(0,&space;100)},&space;\end{equation*}\\&space;\begin{equation*}&space;\sigma&space;\sim&space;\mathcal{N}\textit{(0,&space;100)},&space;\end{equation*}\\&space;\begin{equation*}&space;\xi&space;\sim&space;\mathcal{N}\textit{(0,&space;10)},&space;\end{equation*}" title="\begin{equation*} x_{s,\cdot}^{block-maxima}|\mu,\sigma,\xi \sim \mathcal{GEV}(\mu,\sigma,\xi), \end{equation*} \\ \begin{equation*} \mu \sim \mathcal{N}\textit{(0, 100)}, \end{equation*}\\ \begin{equation*} \sigma \sim \mathcal{N}\textit{(0, 100)}, \end{equation*}\\ \begin{equation*} \xi \sim \mathcal{N}\textit{(0, 10)}, \end{equation*}" /></a>
-'''
+* ***GEV*** **model**: 
+<img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/GEV_model.png" width="50%" height="50%">
+* ***GPD*** **model**: 
+<img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/GPD_model.png" width="50%" height="50%">
+* ***Hierarchical random effects*** **model**: 
+<img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/Likelihood.png" width="50%" height="50%">
+<img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/tree/main/Report/Immagini/Hmodel.png" width="50%" height="50%">
+
+
 ## File system
 
 The data analyzed are collected in the **Ireland_daily_from1990.csv** file, in the folder *Dataset*, together with a little description of the source in the **Dataset.txt** file.
