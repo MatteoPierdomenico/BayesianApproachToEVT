@@ -61,6 +61,6 @@ Codes are organized in the main folder in the following way:
 * Return levels for *Kerry* and *Westmeath* in *December* and *July* from the **hierarchical random effects** model:
 <img src="https://github.com/MatteoPierdomenico/BayesianApproachToEVT/blob/main/Report/Immagini/Return_levels_HM.png" width="50%" height="50%">
 
-## Aknowledgments
+## Acknowledgments
 
 Bayesian statistics project written by Davide Fabbrucci, Matteo Pierdomenico and Giacomo Randazzo for the Bayesian statistics 2020/21 course, professor Alessandra Guglielmi, Politecnico di Milano.
